@@ -6,9 +6,10 @@ import styles from "./style.module.scss";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const TITLE = "KANNA";
 
@@ -25,12 +26,26 @@ export default function Landing() {
             const mm = gsap.matchMedia();
 
             mm.add("(min-width: 769px)", () => {
+                if (!copyRef.current) return;
+
+                const split = new SplitText(copyRef.current, {
+                    type: "lines",
+                    linesClass: styles.line,
+                    mask: "lines",
+                });
+
+                split.masks.forEach((mask) => {
+                    mask.classList.add(styles.lineMask);
+                    if (mask instanceof HTMLElement) {
+                        mask.style.overflow = "hidden";
+                    }
+                });
+
                 gsap.set(bannerRef.current, { height: "80vh" });
                 gsap.set(chars, { yPercent: 130, rotateX: -90, opacity: 0 });
-                gsap.set(copyRef.current, {
+                gsap.set(split.lines, {
+                    yPercent: 120,
                     opacity: 0,
-                    y: 40,
-                    filter: "blur(8px)",
                 });
 
                 const tl = gsap.timeline({
@@ -64,13 +79,13 @@ export default function Landing() {
                         "-=1.4"
                     )
                     .to(
-                        copyRef.current,
+                        split.lines,
                         {
+                            yPercent: 0,
                             opacity: 1,
-                            y: 0,
-                            filter: "blur(0px)",
                             duration: 1.2,
-                            ease: "power3.out",
+                            stagger: 0.08,
+                            ease: "power4.out",
                         },
                         "-=0.9"
                     );
@@ -85,11 +100,30 @@ export default function Landing() {
                         scrub: true,
                     },
                 });
+
+                return () => {
+                    split.revert();
+                };
             });
 
             mm.add("(max-width: 768px)", () => {
+                if (!copyRef.current) return;
+
+                const split = new SplitText(copyRef.current, {
+                    type: "lines",
+                    linesClass: styles.line,
+                    mask: "lines",
+                });
+
+                split.masks.forEach((mask) => {
+                    mask.classList.add(styles.lineMask);
+                    if (mask instanceof HTMLElement) {
+                        mask.style.overflow = "hidden";
+                    }
+                });
+
                 gsap.set(chars, { yPercent: 120, opacity: 0 });
-                gsap.set(copyRef.current, { opacity: 0, y: 20 });
+                gsap.set(split.lines, { yPercent: 120, opacity: 0 });
                 gsap.set(imageWrapperRef.current, { scale: 1.08 });
 
                 const tl = gsap.timeline({
@@ -114,8 +148,14 @@ export default function Landing() {
                         0.2
                     )
                     .to(
-                        copyRef.current,
-                        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+                        split.lines,
+                        {
+                            yPercent: 0,
+                            opacity: 1,
+                            duration: 0.9,
+                            stagger: 0.06,
+                            ease: "power3.out",
+                        },
                         "-=0.5"
                     );
 
@@ -129,6 +169,10 @@ export default function Landing() {
                         scrub: true,
                     },
                 });
+
+                return () => {
+                    split.revert();
+                };
             });
         },
         { scope: containerRef }
