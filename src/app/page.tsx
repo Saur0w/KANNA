@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import type LocomotiveScroll from "locomotive-scroll";
 import styles from "./page.module.css";
 import Landing from "@/components/Landing";
+import Header from "@/components/Header";
 
 export default function Home() {
     useEffect(() => {
@@ -29,6 +30,7 @@ export default function Home() {
 
     return (
         <main className={styles.page}>
+            <Header />
             <Landing />
         </main>
     );
