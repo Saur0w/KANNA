@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const TITLE = "KANNA";
 
@@ -191,7 +191,7 @@ export default function Landing() {
             <div ref={lowerRef} className={styles.lowerSection}>
                 <div ref={imageWrapperRef} className={styles.imageWrapper}>
                     <Image
-                        src="/images/landing.png"
+                        src="/images/vase.jpg"
                         alt="Kanna ceramic vase"
                         fill
                         priority
