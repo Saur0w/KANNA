@@ -23,6 +23,23 @@ export default function Header() {
 
     useGSAP(
         () => {
+            const navItems = gsap.utils.toArray<HTMLElement>(`.${styles.navItem}`);
+
+            gsap.set(navItems, {
+                yPercent: 120,
+                opacity: 0,
+            });
+
+            gsap.to(navItems, {
+                yPercent: 0,
+                opacity: 1,
+                duration: 1.1,
+                stagger: 0.07,
+                ease: "power4.out",
+                delay: 0.3,
+                clearProps: "transform,opacity",
+            });
+
             ScrollTrigger.create({
                 start: "top -60px", // Trigger when scrolled 60px down
                 toggleClass: {
@@ -40,8 +57,10 @@ export default function Header() {
                 <nav>
                     <ul>
                         {NAV_ITEMS.map((item, index) => (
-                            <li key={index}>
-                                <Link href={item.href}>{item.label}</Link>
+                            <li key={index} className={styles.navItemMask}>
+                                <span className={styles.navItem}>
+                                    <Link href={item.href}>{item.label}</Link>
+                                </span>
                             </li>
                         ))}
                     </ul>
