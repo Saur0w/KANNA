@@ -7,7 +7,6 @@
 .landing {
   position: relative;
   width: 100vw;
-  height: 150vh;
   display: flex;
   flex-direction: column;
   background-color: #f7f7f7;
@@ -17,7 +16,8 @@
 .upperSection {
   position: relative;
   width: 100%;
-  height: 80vh; /* Matches initial GSAP state to prevent layout jumps */
+  height: 80vh;
+  flex-shrink: 0;
   background-color: #c42b1c;
   color: #f2f1ed;
   display: flex;
@@ -58,7 +58,7 @@
     margin: 0;
     letter-spacing: -0.01em;
     font-family: 'Montserrat', sans-serif;
-    will-change: transform, opacity;
+    will-change: transform, opacity, filter;
 
     @media (max-width: 768px) {
       max-width: 200px;
@@ -72,6 +72,7 @@
   bottom: 1rem;
   left: 2em;
   overflow: hidden;
+  perspective: 600px;
 
   @media (max-width: 768px) {
     left: 1rem;
@@ -93,18 +94,21 @@
 .charMask {
   display: inline-block;
   overflow: hidden;
+  perspective: 600px;
 }
 
 .char {
   display: inline-block;
-  will-change: transform;
+  will-change: transform, opacity;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
 }
 
 .lowerSection {
   position: relative;
   width: 100%;
-  flex: 1; /* Automatically fills the remainder when upperSection transitions */
-  min-height: 70vh;
+  height: 90vh;
+  flex-shrink: 0;
   overflow: hidden;
   background-color: #f7f7f7;
   z-index: 1;
@@ -113,9 +117,7 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  height: 115%;
-  top: 0;
-  left: 0;
+  height: 120%;
   will-change: transform;
 
   .image {

@@ -17,67 +17,118 @@ export default function Landing() {
     const bannerRef = useRef<HTMLDivElement | null>(null);
     const copyRef = useRef<HTMLParagraphElement | null>(null);
     const imageWrapperRef = useRef<HTMLDivElement | null>(null);
+    const lowerRef = useRef<HTMLDivElement | null>(null);
 
     useGSAP(
         () => {
             const chars = gsap.utils.toArray<HTMLElement>(`.${styles.char}`);
+            const mm = gsap.matchMedia();
 
-            const tl = gsap.timeline({
-                defaults: { ease: "power4.out" },
+            mm.add("(min-width: 769px)", () => {
+                gsap.set(bannerRef.current, { height: "80vh" });
+                gsap.set(chars, { yPercent: 130, rotateX: -90, opacity: 0 });
+                gsap.set(copyRef.current, {
+                    opacity: 0,
+                    y: 40,
+                    filter: "blur(8px)",
+                });
+
+                const tl = gsap.timeline({
+                    defaults: { ease: "expo.out" },
+                    delay: 0.3,
+                });
+
+                tl.to(bannerRef.current, {
+                    height: "60vh",
+                    duration: 1.6,
+                    ease: "expo.inOut",
+                })
+                    .to(
+                        imageWrapperRef.current,
+                        {
+                            duration: 1.8,
+                            ease: "expo.out",
+                        },
+                        "<0.1"
+                    )
+                    .to(
+                        chars,
+                        {
+                            yPercent: 0,
+                            rotateX: 0,
+                            opacity: 1,
+                            duration: 1.3,
+                            stagger: 0.055,
+                            ease: "power4.out",
+                        },
+                        "-=1.4"
+                    )
+                    .to(
+                        copyRef.current,
+                        {
+                            opacity: 1,
+                            y: 0,
+                            filter: "blur(0px)",
+                            duration: 1.2,
+                            ease: "power3.out",
+                        },
+                        "-=0.9"
+                    );
+
+                gsap.to(imageWrapperRef.current, {
+                    yPercent: -10,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                    },
+                });
             });
 
-            // Set initial states to avoid flash
-            gsap.set(bannerRef.current, { height: "80vh" });
-            gsap.set(chars, { yPercent: 120 });
-            gsap.set(copyRef.current, { opacity: 0, y: 24 });
-            gsap.set(imageWrapperRef.current, { scale: 1.15 });
+            mm.add("(max-width: 768px)", () => {
+                gsap.set(chars, { yPercent: 120, opacity: 0 });
+                gsap.set(copyRef.current, { opacity: 0, y: 20 });
+                gsap.set(imageWrapperRef.current, { scale: 1.08 });
 
-            // Settle banner height and reveal letters
-            tl.to(bannerRef.current, {
-                height: "60vh",
-                duration: 1.5,
-                ease: "expo.out",
-            })
-                .to(
+                const tl = gsap.timeline({
+                    defaults: { ease: "expo.out" },
+                    delay: 0.2,
+                });
+
+                tl.to(
                     imageWrapperRef.current,
-                    {
-                        scale: 1,
-                        duration: 1.6,
-                        ease: "expo.out",
-                    },
-                    "<"
+                    { scale: 1, duration: 1.4, ease: "expo.out" },
+                    0
                 )
-                .to(
-                    chars,
-                    {
-                        yPercent: 0,
-                        duration: 1.2,
-                        stagger: 0.04,
-                        ease: "power4.out",
-                    },
-                    "-=1.1"
-                )
-                .to(
-                    copyRef.current,
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 1,
-                        ease: "power3.out",
-                    },
-                    "-=0.9"
-                );
+                    .to(
+                        chars,
+                        {
+                            yPercent: 0,
+                            opacity: 1,
+                            duration: 1,
+                            stagger: 0.04,
+                            ease: "power4.out",
+                        },
+                        0.2
+                    )
+                    .to(
+                        copyRef.current,
+                        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+                        "-=0.5"
+                    );
 
-            // Parallax scroll on the lower hero image
-            gsap.to(imageWrapperRef.current, {
-                yPercent: 12,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                },
+                gsap.to(imageWrapperRef.current, {
+                    yPercent: -5,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                    },
+                });
             });
         },
         { scope: containerRef }
@@ -98,14 +149,14 @@ export default function Landing() {
                     <h1 className={styles.heading} aria-label={TITLE}>
                         {TITLE.split("").map((char, index) => (
                             <span key={index} className={styles.charMask}>
-                <span className={styles.char}>{char}</span>
-              </span>
+                                <span className={styles.char}>{char}</span>
+                            </span>
                         ))}
                     </h1>
                 </div>
             </div>
 
-            <div className={styles.lowerSection}>
+            <div ref={lowerRef} className={styles.lowerSection}>
                 <div ref={imageWrapperRef} className={styles.imageWrapper}>
                     <Image
                         src="/images/landing.png"
