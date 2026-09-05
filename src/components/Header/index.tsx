@@ -59,50 +59,69 @@ export default function Header() {
         setIsNavMounted(false);
     };
 
-    useGSAP(() => {
-        gsap.set(buttonRef.current, { scale: 0 });
+    useGSAP(
+        () => {
+            gsap.set(buttonRef.current, { scale: 0 });
 
-        ScrollTrigger.create({
-            trigger: document.documentElement,
-            start: 0,
-            end: window.innerHeight * 0.45,
-            onLeave: () => {
-                // Reveal floating hamburger button with snappy pop
-                gsap.to(buttonRef.current, {
-                    scale: 1,
-                    duration: 0.4,
-                    ease: "pop",
-                });
-                // Hide main desktop navigation with luxury ease
-                gsap.to(headerRef.current, {
-                    y: -60,
-                    opacity: 0,
-                    duration: 0.4,
-                    ease: "snellenberg",
-                    pointerEvents: "none",
-                });
-            },
-            onEnterBack: () => {
-                // Hide floating hamburger button
-                gsap.to(buttonRef.current, {
-                    scale: 0,
-                    duration: 0.25,
-                    ease: "power2.in",
-                    onComplete: () => {
-                        setIsActive(false);
-                    },
-                });
-                // Reveal main desktop navigation back
-                gsap.to(headerRef.current, {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.5,
-                    ease: "snellenberg",
-                    pointerEvents: "auto",
-                });
-            },
-        });
-    });
+            // Mask reveal animation for header items
+            const navItems = gsap.utils.toArray<HTMLElement>(`.${styles.navItem}`);
+            gsap.set(navItems, {
+                yPercent: 120,
+                opacity: 0,
+            });
+
+            gsap.to(navItems, {
+                yPercent: 0,
+                opacity: 1,
+                duration: 0.9,
+                stagger: 0.06,
+                delay: 0.35,
+                ease: "snellenberg",
+            });
+
+            ScrollTrigger.create({
+                trigger: document.documentElement,
+                start: 0,
+                end: window.innerHeight * 0.45,
+                onLeave: () => {
+                    // Reveal floating hamburger button with snappy pop
+                    gsap.to(buttonRef.current, {
+                        scale: 1,
+                        duration: 0.4,
+                        ease: "pop",
+                    });
+                    // Hide main desktop navigation with luxury ease
+                    gsap.to(headerRef.current, {
+                        y: -60,
+                        opacity: 0,
+                        duration: 0.4,
+                        ease: "snellenberg",
+                        pointerEvents: "none",
+                    });
+                },
+                onEnterBack: () => {
+                    // Hide floating hamburger button
+                    gsap.to(buttonRef.current, {
+                        scale: 0,
+                        duration: 0.25,
+                        ease: "power2.in",
+                        onComplete: () => {
+                            setIsActive(false);
+                        },
+                    });
+                    // Reveal main desktop navigation back
+                    gsap.to(headerRef.current, {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.5,
+                        ease: "snellenberg",
+                        pointerEvents: "auto",
+                    });
+                },
+            });
+        },
+        { scope: headerRef }
+    );
 
     return (
         <>

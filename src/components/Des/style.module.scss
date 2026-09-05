@@ -1,21 +1,44 @@
 .des {
-  height: 40vh;
+  min-height: 45vh;
   width: 100%;
   background: #F2F1ED;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: left;
+  padding: clamp(4rem, 12vh, 8rem) clamp(1.5rem, 5vw, 4rem);
+  box-sizing: border-box;
 
   .headingWrapper {
-    width: 1096px;
+    width: 100%;
+    max-width: 1096px;
     height: auto;
     background: transparent;
+    margin: 0 auto;
+
     p {
       font-family: "Cormorant Garamond", serif;
       font-weight: 500;
-      font-size: 30px;
+      font-size: clamp(1.35rem, 2.5vw, 30px);
+      line-height: 1.45;
       color: #0F0F0F;
+      margin: 0;
+      letter-spacing: -0.01em;
+
+      @media (max-width: 768px) {
+        font-size: clamp(1.2rem, 4.5vw, 1.65rem);
+        line-height: 1.4;
+      }
     }
   }
+}
+
+.lineMask {
+  display: block;
+  overflow: hidden;
+}
+
+.line {
+  display: block;
+  will-change: transform, opacity;
 }
