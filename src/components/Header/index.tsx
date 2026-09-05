@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./style.module.scss";
-
+import PerspectiveText from "@/ui/PerspectiveText";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CustomEase } from "gsap/CustomEase";
@@ -112,9 +112,11 @@ export default function Header() {
                         <ul>
                             {NAV_ITEMS.map((item, index) => (
                                 <li key={index} className={styles.navItemMask}>
-                  <span className={styles.navItem}>
-                    <Link href={item.href}>{item.label}</Link>
-                  </span>
+                                    <span className={styles.navItem}>
+                                        <Link href={item.href} className={styles.navLink}>
+                                            <PerspectiveText label={item.label} />
+                                        </Link>
+                                    </span>
                                 </li>
                             ))}
                         </ul>

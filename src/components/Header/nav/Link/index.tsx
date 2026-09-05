@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import styles from "./style.module.scss";
+import PerspectiveText from "@/ui/PerspectiveText";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
@@ -92,6 +93,7 @@ export default function Index({
         <div ref={containerRef} className={styles.linkMask}>
             <div
                 className={styles.link}
+                data-hover-parent="true"
                 onMouseEnter={() => setSelectedIndicator(href)}
             >
                 <div
@@ -101,7 +103,7 @@ export default function Index({
                 />
                 <span className={styles.indexNum}>{formattedIndex}</span>
                 <Link href={href} className={styles.linkText}>
-                    {title}
+                    <PerspectiveText label={title} />
                 </Link>
             </div>
         </div>

@@ -1,0 +1,116 @@
+$ease-snellenberg: cubic-bezier(0.76, 0, 0.24, 1);
+
+.perspectiveContainer {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  perspective: 800px;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+}
+
+.roll {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  line-height: inherit;
+  width: 100%;
+
+  .primary,
+  .secondary {
+    display: inline-block;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+    white-space: nowrap;
+    pointer-events: none;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    transition: transform 0.65s $ease-snellenberg, opacity 0.65s $ease-snellenberg;
+  }
+
+  // --- UP DIRECTION (Default) ---
+  &.up {
+    .primary {
+      transform-origin: center bottom;
+      transform: translateY(0%) rotateX(0deg);
+      opacity: 1;
+    }
+
+    .secondary {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform-origin: center top;
+      transform: translateY(100%) rotateX(-90deg);
+      opacity: 0;
+    }
+
+    &:hover,
+    &.active,
+    .perspectiveContainer:hover &,
+    :global(a:hover) &,
+    :global(button:hover) &,
+    :global([data-hover]:hover) &,
+    :global([data-hover-parent]:hover) & {
+      .primary {
+        transform: translateY(-100%) rotateX(90deg);
+        opacity: 0;
+      }
+
+      .secondary {
+        opacity: 1;
+        transform: translateY(0%) rotateX(0deg);
+      }
+    }
+  }
+
+  // --- DOWN DIRECTION ---
+  &.down {
+    .primary {
+      transform-origin: center top;
+      transform: translateY(0%) rotateX(0deg);
+      opacity: 1;
+    }
+
+    .secondary {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform-origin: center bottom;
+      transform: translateY(-100%) rotateX(90deg);
+      opacity: 0;
+    }
+
+    &:hover,
+    &.active,
+    .perspectiveContainer:hover &,
+    :global(a:hover) &,
+    :global(button:hover) &,
+    :global([data-hover]:hover) &,
+    :global([data-hover-parent]:hover) & {
+      .primary {
+        transform: translateY(100%) rotateX(-90deg);
+        opacity: 0;
+      }
+
+      .secondary {
+        opacity: 1;
+        transform: translateY(0%) rotateX(0deg);
+      }
+    }
+  }
+}

@@ -40,7 +40,7 @@
             transition: color 0.3s ease, opacity 0.3s ease;
 
             &:hover {
-              opacity: 0.7;
+              color: #ffffff;
             }
           }
         }
@@ -82,6 +82,12 @@
 .navItem {
   display: inline-block;
   will-change: transform, opacity;
+}
+
+.navLink {
+  display: inline-block;
+  text-decoration: none;
+  perspective: 600px; // Gives the 3D roll realistic depth
 }
 
 .headerButtonContainer {

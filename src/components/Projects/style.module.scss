@@ -12,6 +12,7 @@
       left: 4em;
       display: flex;
       flex-direction: row;
+      align-items: center;
       gap: 1em;
       cursor: pointer;
       h1 {
@@ -20,6 +21,13 @@
         font-size: 20px;
         font-weight: 400;
         color: #0F0F0F;
+        margin: 0;
+      }
+      svg {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      &:hover svg {
+        transform: translate(4px, -4px);
       }
     }
 
@@ -47,6 +55,7 @@
         font-size: 60px;
         font-weight: 400;
         color: #0F0F0F;
+        margin: 0;
       }
     }
   }

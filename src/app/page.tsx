@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Des from "@/components/Des";
 import Gallery from "@/components/Gallery";
 import Projects from "@/components/Projects";
+import Objects from "@/components/Objects";
 
 export default function Home() {
     useEffect(() => {
@@ -36,6 +37,7 @@ export default function Home() {
             <Header />
             <Landing />
             <Des />
+            <Objects />
             <Gallery />
             <Projects />
         </main>

@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
 import Link from "./Link";
+import PerspectiveText from "@/ui/PerspectiveText";
 
 gsap.registerPlugin(CustomEase);
 
@@ -172,9 +173,15 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                         <div className={styles.footerCol}>
                             <span className={styles.footerLabel}>CONNECT</span>
                             <div className={styles.footerLinks}>
-                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
-                                <a href="/">Journal ↗</a>
-                                <a href="/">Inquiries ↗</a>
+                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                                    <PerspectiveText label="Instagram ↗" />
+                                </a>
+                                <a href="/">
+                                    <PerspectiveText label="Journal ↗" />
+                                </a>
+                                <a href="/">
+                                    <PerspectiveText label="Inquiries ↗" />
+                                </a>
                             </div>
                         </div>
                     </div>
