@@ -7,9 +7,9 @@ import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
 import Link from "./Link";
-import PerspectiveText from "@/ui/PerspectiveText";
+import Curve from "./Curve";
 
-gsap.registerPlugin(CustomEase);
+gsap.registerPlugin(CustomEase, useGSAP);
 
 if (typeof window !== "undefined") {
     try {
@@ -50,7 +50,6 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
             if (!menuRef.current) return;
 
             if (isActive) {
-                // Fade in backdrop
                 if (backdropRef.current) {
                     gsap.fromTo(
                         backdropRef.current,
@@ -58,8 +57,6 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                         { opacity: 1, duration: 0.6, ease: "power2.out" }
                     );
                 }
-
-                // Slide in drawer with snellenberg custom ease
                 gsap.fromTo(
                     menuRef.current,
                     { x: "-100%" },
@@ -70,7 +67,6 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                     }
                 );
 
-                // Header tag reveal
                 if (headerTagRef.current) {
                     gsap.fromTo(
                         headerTagRef.current,
@@ -85,7 +81,6 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                     );
                 }
 
-                // Footer metadata reveal
                 if (footerRef.current) {
                     gsap.fromTo(
                         footerRef.current,
@@ -100,7 +95,6 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                     );
                 }
             } else {
-                // Fade out backdrop
                 if (backdropRef.current) {
                     gsap.to(backdropRef.current, {
                         opacity: 0,
@@ -109,7 +103,6 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                     });
                 }
 
-                // Fade out footer
                 if (footerRef.current) {
                     gsap.to(footerRef.current, {
                         opacity: 0,
@@ -119,7 +112,6 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                     });
                 }
 
-                // Slide out drawer
                 gsap.to(menuRef.current, {
                     x: "-100%",
                     duration: 0.65,
@@ -168,24 +160,14 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                         <div className={styles.footerCol}>
                             <span className={styles.footerLabel}>STUDIO</span>
                             <p className={styles.footerText}>Kyoto · Tokyo · Paris</p>
-                            <p className={styles.footerSub}>Artisanal stoneware & spatial anchors</p>
-                        </div>
-                        <div className={styles.footerCol}>
-                            <span className={styles.footerLabel}>CONNECT</span>
-                            <div className={styles.footerLinks}>
-                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                                    <PerspectiveText label="Instagram ↗" />
-                                </a>
-                                <a href="/">
-                                    <PerspectiveText label="Journal ↗" />
-                                </a>
-                                <a href="/">
-                                    <PerspectiveText label="Inquiries ↗" />
-                                </a>
-                            </div>
+                            <p className={styles.footerSub}>
+                                Artisanal stoneware & spatial anchors
+                            </p>
                         </div>
                     </div>
                 </div>
+
+                <Curve isActive={isActive} />
             </div>
         </>
     );

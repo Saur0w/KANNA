@@ -1,4 +1,5 @@
-$ease-snellenberg: cubic-bezier(0.76, 0, 0.24, 1);
+$ease-kanna: cubic-bezier(0.76, 0, 0.24, 1);
+$ease-snellenberg: $ease-kanna;
 
 .perspectiveContainer {
   position: relative;
@@ -37,7 +38,7 @@ $ease-snellenberg: cubic-bezier(0.76, 0, 0.24, 1);
     pointer-events: none;
     backface-visibility: hidden;
     will-change: transform, opacity;
-    transition: transform 0.65s $ease-snellenberg, opacity 0.65s $ease-snellenberg;
+    transition: transform 0.65s $ease-kanna, opacity 0.65s $ease-kanna;
   }
 
   // --- UP DIRECTION (Default) ---

@@ -15,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger, CustomEase);
 
 if (typeof window !== "undefined") {
     try {
+        CustomEase.create("kanna", "0.76, 0, 0.24, 1");
         CustomEase.create("snellenberg", "0.76, 0, 0.24, 1");
         CustomEase.create("pop", "0.34, 1.56, 0.64, 1");
     } catch {
@@ -76,7 +77,7 @@ export default function Header() {
                 duration: 0.9,
                 stagger: 0.06,
                 delay: 0.35,
-                ease: "snellenberg",
+                ease: "kanna",
             });
 
             ScrollTrigger.create({
@@ -95,7 +96,7 @@ export default function Header() {
                         y: -60,
                         opacity: 0,
                         duration: 0.4,
-                        ease: "snellenberg",
+                        ease: "kanna",
                         pointerEvents: "none",
                     });
                 },
@@ -114,7 +115,7 @@ export default function Header() {
                         y: 0,
                         opacity: 1,
                         duration: 0.5,
-                        ease: "snellenberg",
+                        ease: "kanna",
                         pointerEvents: "auto",
                     });
                 },

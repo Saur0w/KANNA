@@ -12,6 +12,7 @@ gsap.registerPlugin(CustomEase);
 
 if (typeof window !== "undefined") {
     try {
+        CustomEase.create("kanna", "0.76, 0, 0.24, 1");
         CustomEase.create("snellenberg", "0.76, 0, 0.24, 1");
     } catch {
         // Handled
@@ -52,7 +53,7 @@ export default function Index({
                     opacity: 1,
                     duration: 0.75,
                     delay: 0.18 + 0.05 * index,
-                    ease: "snellenberg",
+                    ease: "kanna",
                 }
             );
         },
