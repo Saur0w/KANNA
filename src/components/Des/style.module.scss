@@ -1,0 +1,21 @@
+.des {
+  height: 40vh;
+  width: 100%;
+  background: #F2F1ED;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+
+  .headingWrapper {
+    width: 1096px;
+    height: auto;
+    background: transparent;
+    p {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: 30px;
+      color: #0F0F0F;
+    }
+  }
+}
