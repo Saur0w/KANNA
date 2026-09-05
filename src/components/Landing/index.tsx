@@ -5,10 +5,9 @@ import Image from "next/image";
 import styles from "./style.module.scss";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const TITLE = "KANNA";
 
@@ -18,12 +17,8 @@ type IntroConfig = {
     delay: number;
     charDuration: number;
     charStagger: number;
-    lineDuration: number;
-    lineStagger: number;
-    lineEase: string;
-    wrapperY: string;
     phase2Duration: number;
-    imgYPercent: number;
+    upperSectionHeight: string;
 };
 
 const DESKTOP_CONFIG: IntroConfig = {
@@ -32,12 +27,8 @@ const DESKTOP_CONFIG: IntroConfig = {
     delay: 0.25,
     charDuration: 1.25,
     charStagger: 0.05,
-    lineDuration: 1.15,
-    lineStagger: 0.075,
-    lineEase: "power4.out",
-    wrapperY: "25vh",
     phase2Duration: 1.5,
-    imgYPercent: -10,
+    upperSectionHeight: "60vh",
 };
 
 const MOBILE_CONFIG: IntroConfig = {
@@ -46,12 +37,8 @@ const MOBILE_CONFIG: IntroConfig = {
     delay: 0.2,
     charDuration: 1,
     charStagger: 0.04,
-    lineDuration: 0.9,
-    lineStagger: 0.05,
-    lineEase: "power3.out",
-    wrapperY: "20vh",
     phase2Duration: 1.3,
-    imgYPercent: -5,
+    upperSectionHeight: "60vh",
 };
 
 export default function Landing() {
@@ -70,31 +57,13 @@ export default function Landing() {
             const buildIntro = (cfg: IntroConfig) => {
                 if (!copyRef.current) return;
 
-                const split = new SplitText(copyRef.current, {
-                    type: "lines",
-                    linesClass: styles.line,
-                    mask: "lines",
-                });
-
-                split.masks.forEach((mask) => {
-                    mask.classList.add(styles.lineMask);
-                    if (mask instanceof HTMLElement) {
-                        mask.style.overflow = "hidden";
-                    }
-                });
-
-                gsap.set(copyRef.current, { opacity: 1 });
+                gsap.set(copyRef.current, { opacity: 0, y: 15 });
 
                 gsap.set(chars, {
                     yPercent: cfg.charYPercent,
                     rotateX: cfg.charRotateX,
                     opacity: 0,
                 });
-                gsap.set(split.lines, { yPercent: 120, opacity: 0 });
-                gsap.set([lowerRef.current, headingWrapperRef.current], {
-                    y: cfg.wrapperY,
-                });
-                gsap.set(imageWrapperRef.current, { scale: 1.08 });
 
                 const tl = gsap.timeline({
                     defaults: { ease: "expo.out" },
@@ -114,50 +83,24 @@ export default function Landing() {
                     0
                 )
                     .to(
-                        split.lines,
+                        copyRef.current,
                         {
-                            yPercent: 0,
                             opacity: 1,
-                            duration: cfg.lineDuration,
-                            stagger: cfg.lineStagger,
-                            ease: cfg.lineEase,
+                            y: 0,
+                            duration: 1,
+                            ease: "power3.out",
                         },
                         0.15
                     )
-                
                     .to(
-                        [lowerRef.current, headingWrapperRef.current],
+                        bannerRef.current,
                         {
-                            y: 0,
+                            height: cfg.upperSectionHeight,
                             duration: cfg.phase2Duration,
                             ease: "expo.inOut",
                         },
                         ">0.05"
-                    )
-                    .to(
-                        imageWrapperRef.current,
-                        {
-                            scale: 1,
-                            duration: cfg.phase2Duration,
-                            ease: "expo.out",
-                        },
-                        "<"
                     );
-
-                gsap.to(imageWrapperRef.current, {
-                    yPercent: cfg.imgYPercent,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: "top top",
-                        end: "bottom top",
-                        scrub: true,
-                    },
-                });
-
-                return () => {
-                    split.revert();
-                };
             };
 
             mm.add("(min-width: 769px)", () => buildIntro(DESKTOP_CONFIG));
