@@ -4,9 +4,18 @@ import { useRef } from "react";
 import Link from "next/link";
 import styles from "./style.module.scss";
 import gsap from "gsap";
+import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(CustomEase);
+
+if (typeof window !== "undefined") {
+    try {
+        CustomEase.create("snellenberg", "0.76, 0, 0.24, 1");
+    } catch {
+        // Handled
+    }
+}
 
 interface LinkData {
     title: string;
@@ -22,11 +31,11 @@ interface IndexProps {
 }
 
 export default function Index({
-                                  data,
-                                  isActive,
-                                  setSelectedIndicator,
-                                  isExiting = false,
-                              }: IndexProps) {
+    data,
+    isActive,
+    setSelectedIndicator,
+    isExiting = false,
+}: IndexProps) {
     const { title, href, index } = data;
 
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -36,13 +45,13 @@ export default function Index({
         () => {
             gsap.fromTo(
                 containerRef.current,
-                { x: -80, opacity: 0 },
+                { y: 35, opacity: 0 },
                 {
-                    x: 0,
+                    y: 0,
                     opacity: 1,
-                    duration: 0.7,
-                    delay: 0.25 + 0.05 * index,
-                    ease: "power3.out",
+                    duration: 0.75,
+                    delay: 0.18 + 0.05 * index,
+                    ease: "snellenberg",
                 }
             );
         },
@@ -55,7 +64,7 @@ export default function Index({
 
             gsap.to(indicatorRef.current, {
                 scale: isActive ? 1 : 0,
-                duration: isActive ? 0.3 : 0.35,
+                duration: isActive ? 0.35 : 0.25,
                 ease: isActive ? "back.out(2)" : "power2.in",
             });
         },
@@ -67,28 +76,34 @@ export default function Index({
             if (!isExiting || !containerRef.current) return;
 
             gsap.to(containerRef.current, {
-                x: -80,
+                y: 20,
                 opacity: 0,
-                duration: 0.6,
-                delay: 0.04 * index,
-                ease: "power3.in",
+                duration: 0.4,
+                delay: 0.02 * index,
+                ease: "power2.in",
             });
         },
         { dependencies: [isExiting], scope: containerRef }
     );
 
+    const formattedIndex = index + 1 < 10 ? `0${index + 1}` : `${index + 1}`;
+
     return (
-        <div
-            ref={containerRef}
-            className={styles.link}
-            onMouseEnter={() => setSelectedIndicator(href)}
-        >
+        <div ref={containerRef} className={styles.linkMask}>
             <div
-                ref={indicatorRef}
-                className={styles.indicator}
-                style={{ transform: "scale(0)" }}
-            />
-            <Link href={href}>{title}</Link>
+                className={styles.link}
+                onMouseEnter={() => setSelectedIndicator(href)}
+            >
+                <div
+                    ref={indicatorRef}
+                    className={styles.indicator}
+                    style={{ transform: "scale(0)" }}
+                />
+                <span className={styles.indexNum}>{formattedIndex}</span>
+                <Link href={href} className={styles.linkText}>
+                    {title}
+                </Link>
+            </div>
         </div>
     );
 }

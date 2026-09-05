@@ -7,10 +7,20 @@ import styles from "./style.module.scss";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
 import Nav from "./nav";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, CustomEase);
+
+if (typeof window !== "undefined") {
+    try {
+        CustomEase.create("snellenberg", "0.76, 0, 0.24, 1");
+        CustomEase.create("pop", "0.34, 1.56, 0.64, 1");
+    } catch {
+        // Fallback handled by GSAP
+    }
+}
 
 const NAV_ITEMS = [
     { label: "Objects", href: "/" },
@@ -55,15 +65,25 @@ export default function Header() {
         ScrollTrigger.create({
             trigger: document.documentElement,
             start: 0,
-            end: window.innerHeight * 0.5,
+            end: window.innerHeight * 0.45,
             onLeave: () => {
+                // Reveal floating hamburger button with snappy pop
                 gsap.to(buttonRef.current, {
                     scale: 1,
-                    duration: 0.35,
-                    ease: "back.out(1.7)",
+                    duration: 0.4,
+                    ease: "pop",
+                });
+                // Hide main desktop navigation with luxury ease
+                gsap.to(headerRef.current, {
+                    y: -60,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: "snellenberg",
+                    pointerEvents: "none",
                 });
             },
             onEnterBack: () => {
+                // Hide floating hamburger button
                 gsap.to(buttonRef.current, {
                     scale: 0,
                     duration: 0.25,
@@ -71,6 +91,14 @@ export default function Header() {
                     onComplete: () => {
                         setIsActive(false);
                     },
+                });
+                // Reveal main desktop navigation back
+                gsap.to(headerRef.current, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: "snellenberg",
+                    pointerEvents: "auto",
                 });
             },
         });

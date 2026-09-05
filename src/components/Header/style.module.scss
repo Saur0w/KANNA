@@ -97,10 +97,19 @@
     height: 80px;
     border-radius: 50%;
     background: #1c1d20;
+    border: 1px solid rgba(242, 241, 237, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+
+    &:hover {
+      background: #c42b1c;
+      border-color: rgba(196, 43, 28, 0.4);
+      transform: scale(1.06);
+    }
   }
 
   .burger {
