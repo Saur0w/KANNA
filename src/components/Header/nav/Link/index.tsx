@@ -40,24 +40,29 @@ export default function Index({
 }: IndexProps) {
     const { title, href, index } = data;
 
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const maskRef = useRef<HTMLDivElement | null>(null);
+    const linkRef = useRef<HTMLDivElement | null>(null);
     const indicatorRef = useRef<HTMLDivElement | null>(null);
 
+    // Initial mask reveal: .link slides up out of .linkMask
     useGSAP(
         () => {
+            if (!linkRef.current) return;
+
             gsap.fromTo(
-                containerRef.current,
-                { y: 35, opacity: 0 },
+                linkRef.current,
+                { yPercent: 125, rotateZ: 2, opacity: 0 },
                 {
-                    y: 0,
+                    yPercent: 0,
+                    rotateZ: 0,
                     opacity: 1,
-                    duration: 0.75,
-                    delay: 0.18 + 0.05 * index,
+                    duration: 0.85,
+                    delay: 0.22 + 0.05 * index,
                     ease: "kanna",
                 }
             );
         },
-        { scope: containerRef }
+        { scope: maskRef }
     );
 
     useGSAP(
@@ -70,29 +75,31 @@ export default function Index({
                 ease: isActive ? "back.out(2)" : "power2.in",
             });
         },
-        { dependencies: [isActive], scope: containerRef }
+        { dependencies: [isActive], scope: maskRef }
     );
 
     useGSAP(
         () => {
-            if (!isExiting || !containerRef.current) return;
+            if (!isExiting || !linkRef.current) return;
 
-            gsap.to(containerRef.current, {
-                y: 20,
+            // Exit mask animation: slides down cleanly out of the mask
+            gsap.to(linkRef.current, {
+                yPercent: 120,
                 opacity: 0,
                 duration: 0.4,
                 delay: 0.02 * index,
                 ease: "power2.in",
             });
         },
-        { dependencies: [isExiting], scope: containerRef }
+        { dependencies: [isExiting], scope: maskRef }
     );
 
     const formattedIndex = index + 1 < 10 ? `0${index + 1}` : `${index + 1}`;
 
     return (
-        <div ref={containerRef} className={styles.linkMask}>
+        <div ref={maskRef} className={styles.linkMask}>
             <div
+                ref={linkRef}
                 className={styles.link}
                 data-hover-parent="true"
                 onMouseEnter={() => setSelectedIndicator(href)}

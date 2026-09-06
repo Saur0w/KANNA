@@ -11,7 +11,7 @@ import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
 import Nav from "./nav";
 
-gsap.registerPlugin(ScrollTrigger, CustomEase);
+gsap.registerPlugin(ScrollTrigger, CustomEase, useGSAP);
 
 if (typeof window !== "undefined") {
     try {
@@ -62,14 +62,21 @@ export default function Header() {
 
     useGSAP(
         () => {
+            // Floating scroll button starts scaled to 0 on all devices
             gsap.set(buttonRef.current, { scale: 0 });
 
-            // Mask reveal animation for header items
+            // Initial mask reveal for desktop header items
             const navItems = gsap.utils.toArray<HTMLElement>(`.${styles.navItem}`);
+            const mobileTrigger = document.querySelector<HTMLElement>(`.${styles.mobileNavTrigger}`);
+
             gsap.set(navItems, {
                 yPercent: 120,
                 opacity: 0,
             });
+
+            if (mobileTrigger) {
+                gsap.set(mobileTrigger, { y: 20, opacity: 0 });
+            }
 
             gsap.to(navItems, {
                 yPercent: 0,
@@ -80,18 +87,28 @@ export default function Header() {
                 ease: "kanna",
             });
 
+            if (mobileTrigger) {
+                gsap.to(mobileTrigger, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    delay: 0.35,
+                    ease: "kanna",
+                });
+            }
+
             ScrollTrigger.create({
                 trigger: document.documentElement,
                 start: 0,
                 end: window.innerHeight * 0.45,
                 onLeave: () => {
-                    // Reveal floating hamburger button with snappy pop
+                    // Reveal floating hamburger button on scroll
                     gsap.to(buttonRef.current, {
                         scale: 1,
                         duration: 0.4,
                         ease: "pop",
                     });
-                    // Hide main desktop navigation with luxury ease
+                    // Hide main header
                     gsap.to(headerRef.current, {
                         y: -60,
                         opacity: 0,
@@ -110,7 +127,7 @@ export default function Header() {
                             setIsActive(false);
                         },
                     });
-                    // Reveal main desktop navigation back
+                    // Reveal main header back
                     gsap.to(headerRef.current, {
                         y: 0,
                         opacity: 1,
@@ -129,7 +146,8 @@ export default function Header() {
             <header ref={headerRef} className={styles.header}>
                 <div className={styles.body}>
                     <nav>
-                        <ul>
+                        {/* Desktop Navigation Links */}
+                        <ul className={styles.desktopNavList}>
                             {NAV_ITEMS.map((item, index) => (
                                 <li key={index} className={styles.navItemMask}>
                                     <span className={styles.navItem}>
@@ -140,17 +158,42 @@ export default function Header() {
                                 </li>
                             ))}
                         </ul>
+
+                        {/* Mobile Responsive Menu/Close Trigger */}
+                        <div className={styles.mobileNavTrigger}>
+                            <div
+                                role="button"
+                                tabIndex={0}
+                                onClick={toggleMenu}
+                                onKeyDown={(e) => e.key === "Enter" && toggleMenu()}
+                                className={styles.mobileMenuBtn}
+                                aria-label={isActive ? "Close menu" : "Open menu"}
+                            >
+                                <span className={styles.mobileMenuText}>
+                                    <PerspectiveText label={isActive ? "Close" : "Menu"} />
+                                </span>
+                                <span
+                                    className={`${styles.mobileMenuDot} ${
+                                        isActive ? styles.mobileMenuDotActive : ""
+                                    }`}
+                                />
+                            </div>
+                        </div>
                     </nav>
                 </div>
             </header>
 
+            {/* Floating button that appears only on scroll */}
             <div ref={buttonRef} className={styles.headerButtonContainer}>
                 <div
                     role="button"
                     tabIndex={0}
                     onClick={toggleMenu}
                     onKeyDown={(e) => e.key === "Enter" && toggleMenu()}
-                    className={styles.button}
+                    className={`${styles.button} ${
+                        isActive ? styles.buttonActive : ""
+                    }`}
+                    aria-label={isActive ? "Close menu" : "Open menu"}
                 >
                     <div
                         className={`${styles.burger} ${

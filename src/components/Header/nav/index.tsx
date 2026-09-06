@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./style.module.scss";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
 import Link from "./Link";
-import Curve from "./Curve";
+import Curve, {
+    DESKTOP_INITIAL_PATH,
+    DESKTOP_TARGET_PATH,
+    MOBILE_INITIAL_PATH,
+    MOBILE_TARGET_PATH,
+} from "./Curve";
 
 gsap.registerPlugin(CustomEase, useGSAP);
 
 if (typeof window !== "undefined") {
     try {
+        CustomEase.create("kanna", "0.76, 0, 0.24, 1");
         CustomEase.create("snellenberg", "0.76, 0, 0.24, 1");
     } catch {
         // Fallback handled by GSAP
@@ -34,92 +40,133 @@ const navItems: NavItem[] = [
     { title: "Kiln & Craft", href: "/" },
     { title: "Lookbook", href: "/" },
     { title: "Studio", href: "/" },
-    { title: "Contact", href: "/" }
+    { title: "Contact", href: "/" },
 ];
 
 export default function Nav({ isActive = true, onClose }: NavProps) {
     const pathname = usePathname();
     const [selectedIndicator, setSelectedIndicator] = useState(pathname);
+    const [isMobile, setIsMobile] = useState(false);
+
     const menuRef = useRef<HTMLDivElement | null>(null);
+    const pathRef = useRef<SVGPathElement | null>(null);
     const backdropRef = useRef<HTMLDivElement | null>(null);
     const footerRef = useRef<HTMLDivElement | null>(null);
     const headerTagRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     useGSAP(
         () => {
             if (!menuRef.current) return;
 
+            const mobile = window.innerWidth <= 768;
+
             if (isActive) {
+                const tl = gsap.timeline({ defaults: { ease: "kanna" } });
+
                 if (backdropRef.current) {
-                    gsap.fromTo(
+                    tl.fromTo(
                         backdropRef.current,
                         { opacity: 0 },
-                        { opacity: 1, duration: 0.6, ease: "power2.out" }
+                        { opacity: 1, duration: 0.6, ease: "power2.out" },
+                        0
                     );
                 }
-                gsap.fromTo(
-                    menuRef.current,
-                    { x: "-100%" },
-                    {
-                        x: "0%",
-                        duration: 0.75,
-                        ease: "snellenberg",
+
+                if (mobile) {
+                    if (pathRef.current) {
+                        tl.set(pathRef.current, { attr: { d: MOBILE_INITIAL_PATH } }, 0);
+                        tl.to(
+                            pathRef.current,
+                            { attr: { d: MOBILE_TARGET_PATH }, duration: 0.8 },
+                            0
+                        );
                     }
-                );
+                    tl.fromTo(
+                        menuRef.current,
+                        { y: "-100%", x: "0%" },
+                        { y: "0%", x: "0%", duration: 0.8 },
+                        0
+                    );
+                } else {
+                    if (pathRef.current) {
+                        tl.set(pathRef.current, { attr: { d: DESKTOP_INITIAL_PATH } }, 0);
+                        tl.to(
+                            pathRef.current,
+                            { attr: { d: DESKTOP_TARGET_PATH }, duration: 0.8 },
+                            0
+                        );
+                    }
+                    tl.fromTo(
+                        menuRef.current,
+                        { x: "-100%", y: "0%" },
+                        { x: "0%", y: "0%", duration: 0.8 },
+                        0
+                    );
+                }
 
                 if (headerTagRef.current) {
-                    gsap.fromTo(
+                    tl.fromTo(
                         headerTagRef.current,
                         { opacity: 0, y: -12 },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.6,
-                            delay: 0.18,
-                            ease: "power3.out",
-                        }
+                        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+                        0.2
                     );
                 }
 
                 if (footerRef.current) {
-                    gsap.fromTo(
+                    tl.fromTo(
                         footerRef.current,
                         { opacity: 0, y: 24 },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.7,
-                            delay: 0.32,
-                            ease: "snellenberg",
-                        }
+                        { opacity: 1, y: 0, duration: 0.7 },
+                        0.3
                     );
                 }
             } else {
-                if (backdropRef.current) {
-                    gsap.to(backdropRef.current, {
-                        opacity: 0,
-                        duration: 0.45,
-                        ease: "power2.in",
-                    });
-                }
-
-                if (footerRef.current) {
-                    gsap.to(footerRef.current, {
-                        opacity: 0,
-                        y: 15,
-                        duration: 0.3,
-                        ease: "power2.in",
-                    });
-                }
-
-                gsap.to(menuRef.current, {
-                    x: "-100%",
-                    duration: 0.65,
-                    ease: "snellenberg",
+                const tl = gsap.timeline({
+                    defaults: { ease: "kanna" },
                     onComplete: () => {
                         if (onClose) onClose();
                     },
                 });
+
+                if (backdropRef.current) {
+                    tl.to(
+                        backdropRef.current,
+                        { opacity: 0, duration: 0.4, ease: "power2.in" },
+                        0
+                    );
+                }
+
+                if (footerRef.current) {
+                    tl.to(
+                        footerRef.current,
+                        { opacity: 0, y: 15, duration: 0.25, ease: "power2.in" },
+                        0
+                    );
+                }
+
+                if (mobile) {
+                    tl.to(
+                        menuRef.current,
+                        { y: "-100%", x: "0%", duration: 0.55 },
+                        0
+                    );
+                } else {
+                    tl.to(
+                        menuRef.current,
+                        { x: "-100%", y: "0%", duration: 0.55 },
+                        0
+                    );
+                }
             }
         },
         { dependencies: [isActive] }
@@ -167,7 +214,11 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                     </div>
                 </div>
 
-                <Curve isActive={isActive} />
+                <Curve
+                    ref={pathRef}
+                    isMobile={isMobile}
+                    isActive={isActive}
+                />
             </div>
         </>
     );

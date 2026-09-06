@@ -23,6 +23,13 @@
   z-index: 130;
   will-change: transform;
 
+  @media (max-width: 768px) {
+    width: 100vw;
+    height: 100dvh;
+    left: 0;
+    top: 0;
+  }
+
   .body {
     box-sizing: border-box;
     height: 100%;
@@ -32,7 +39,7 @@
     justify-content: space-between;
 
     @media (max-width: 768px) {
-      padding: 6rem 2rem 2rem 2rem;
+      padding: 5.5rem 2rem 2.5rem 2rem;
     }
 
     .headerTag {
