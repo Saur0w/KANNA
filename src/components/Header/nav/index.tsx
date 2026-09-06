@@ -142,7 +142,7 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                 if (backdropRef.current) {
                     tl.to(
                         backdropRef.current,
-                        { opacity: 0, duration: 0.5, ease: "power2.inOut" },
+                        { opacity: 0, duration: 0.65, ease: "power2.inOut" },
                         0
                     );
                 }
@@ -150,7 +150,7 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                 if (headerTagRef.current) {
                     tl.to(
                         headerTagRef.current,
-                        { opacity: 0, y: -10, duration: 0.2, ease: "power2.in" },
+                        { opacity: 0, y: -10, duration: 0.25, ease: "power2.in" },
                         0
                     );
                 }
@@ -158,7 +158,7 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                 if (footerRef.current) {
                     tl.to(
                         footerRef.current,
-                        { opacity: 0, y: 15, duration: 0.2, ease: "power2.in" },
+                        { opacity: 0, y: 15, duration: 0.25, ease: "power2.in" },
                         0
                     );
                 }
@@ -186,21 +186,21 @@ export default function Nav({ isActive = true, onClose }: NavProps) {
                 } else {
                     tl.to(
                         menuRef.current,
-                        { x: "-100%", y: "0%", duration: 0.62, ease: "kanna" },
-                        0.08
+                        { x: "-100%", y: "0%", duration: 0.8, ease: "kanna" },
+                        0
                     );
 
                     if (pathRef.current) {
                         tl.set(pathRef.current, { attr: { d: DESKTOP_TARGET_PATH } }, 0);
                         tl.to(
                             pathRef.current,
-                            { attr: { d: DESKTOP_EXIT_PATH }, duration: 0.22, ease: "power2.out" },
+                            { attr: { d: DESKTOP_EXIT_PATH }, duration: 0.28, ease: "sine.out" },
                             0.24
                         );
                         tl.to(
                             pathRef.current,
-                            { attr: { d: DESKTOP_TARGET_PATH }, duration: 0.22, ease: "power2.in" },
-                            0.46
+                            { attr: { d: DESKTOP_TARGET_PATH }, duration: 0.28, ease: "sine.in" },
+                            0.52
                         );
                     }
                 }
