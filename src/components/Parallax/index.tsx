@@ -9,19 +9,22 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const IMAGES: string[] = [
-    "1.jpg",
-    "2.jpg",
-    "3.jpg",
-    "4.jpg",
-    "5.jpg",
-    "6.jpg",
-    "7.jpg",
-    "8.jpg",
-    "9.jpg",
-    "10.jpg",
-    "11.jpg",
-    "12.jpg"
+const DESKTOP_COLUMNS = [
+    ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "1.jpg"],
+    ["5.jpg", "6.jpg", "7.jpg", "8.jpg", "5.jpg"],
+    ["9.jpg", "10.jpg", "11.jpg", "12.jpg", "9.jpg"],
+    ["2.jpg", "4.jpg", "6.jpg", "8.jpg", "10.jpg"],
+];
+
+const TABLET_COLUMNS = [
+    ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"],
+    ["6.jpg", "7.jpg", "8.jpg", "9.jpg", "6.jpg"],
+    ["10.jpg", "11.jpg", "12.jpg", "1.jpg", "2.jpg"],
+];
+
+const MOBILE_COLUMNS = [
+    ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg"],
+    ["7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg", "12.jpg"],
 ];
 
 interface ColumnProps {
@@ -36,7 +39,7 @@ function Column({ images }: ColumnProps) {
                     <Image
                         src={`/images/parallax/${src}`}
                         fill
-                        alt={`Kanna stoneware archive ${src}`}
+                        alt={`Kanna stoneware piece ${src}`}
                         style={{ objectFit: 'cover' }}
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     />
@@ -51,44 +54,28 @@ export default function Parallax() {
     const containerRef = useRef<HTMLDivElement>(null);
     const galleryRef = useRef<HTMLDivElement>(null);
 
-    // Responsive column grouping: 4 columns on desktop, 3 on tablet, 2 on mobile
-    const [columnsData, setColumnsData] = useState<string[][]>([
-        [IMAGES[0], IMAGES[1], IMAGES[2]],
-        [IMAGES[3], IMAGES[4], IMAGES[5]],
-        [IMAGES[6], IMAGES[7], IMAGES[8]],
-        [IMAGES[9], IMAGES[10], IMAGES[11]],
-    ]);
+    // Responsive columns state
+    const [columnsData, setColumnsData] = useState<string[][]>(DESKTOP_COLUMNS);
+    const [screenMode, setScreenMode] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
 
     useEffect(() => {
-        const updateColumns = () => {
+        const handleResize = () => {
             const w = window.innerWidth;
             if (w <= 640) {
-                // 2 columns of 6 images each on phone
-                setColumnsData([
-                    [IMAGES[0], IMAGES[1], IMAGES[2], IMAGES[3], IMAGES[4], IMAGES[5]],
-                    [IMAGES[6], IMAGES[7], IMAGES[8], IMAGES[9], IMAGES[10], IMAGES[11]],
-                ]);
+                setColumnsData(MOBILE_COLUMNS);
+                setScreenMode('mobile');
             } else if (w <= 1024) {
-                // 3 columns of 4 images each on tablet
-                setColumnsData([
-                    [IMAGES[0], IMAGES[1], IMAGES[2], IMAGES[3]],
-                    [IMAGES[4], IMAGES[5], IMAGES[6], IMAGES[7]],
-                    [IMAGES[8], IMAGES[9], IMAGES[10], IMAGES[11]],
-                ]);
+                setColumnsData(TABLET_COLUMNS);
+                setScreenMode('tablet');
             } else {
-                // 4 columns of 3 images each on desktop
-                setColumnsData([
-                    [IMAGES[0], IMAGES[1], IMAGES[2]],
-                    [IMAGES[3], IMAGES[4], IMAGES[5]],
-                    [IMAGES[6], IMAGES[7], IMAGES[8]],
-                    [IMAGES[9], IMAGES[10], IMAGES[11]],
-                ]);
+                setColumnsData(DESKTOP_COLUMNS);
+                setScreenMode('desktop');
             }
         };
 
-        updateColumns();
-        window.addEventListener("resize", updateColumns);
-        return () => window.removeEventListener("resize", updateColumns);
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     useGSAP(
@@ -100,22 +87,23 @@ export default function Parallax() {
 
             const height = window.innerHeight;
 
-            // Counter-balancing offsets for rich dynamic multi-directional parallax
-            const configs = [
-                { yStart: -height * 0.16, yEnd: height * 0.18 },
-                { yStart: height * 0.22, yEnd: -height * 0.20 },
-                { yStart: -height * 0.18, yEnd: height * 0.22 },
-                { yStart: height * 0.24, yEnd: -height * 0.22 },
-            ];
+            // Staggered positive downward travel: columns start with negative top in CSS,
+            // and travel down smoothly. Columns 2 and 4 move faster than 1 and 3.
+            // Neither top nor bottom ever runs empty!
+            const speeds = screenMode === 'mobile'
+                ? [height * 0.45, height * 0.85]
+                : screenMode === 'tablet'
+                ? [height * 0.45, height * 0.85, height * 0.50]
+                : [height * 0.45, height * 0.90, height * 0.55, height * 0.95];
 
             columnElements.forEach((col, i) => {
-                const config = configs[i % configs.length];
+                const travel = speeds[i % speeds.length];
 
                 gsap.fromTo(
                     col,
-                    { y: config.yStart },
+                    { y: 0 },
                     {
-                        y: config.yEnd,
+                        y: travel,
                         ease: "none",
                         scrollTrigger: {
                             trigger: galleryRef.current,
@@ -127,12 +115,12 @@ export default function Parallax() {
                 );
             });
         },
-        { dependencies: [columnsData], scope: containerRef }
+        { dependencies: [columnsData, screenMode], scope: containerRef }
     );
 
     return (
         <section className={styles.parallax} ref={containerRef}>
-            {/* Editorial Section Header */}
+            {/* Section Header */}
             <div className={styles.parallaxHeader}>
                 <div className={styles.headerLeft}>
                     <span className={styles.sectionIndex}>03 // VISUAL DIARY</span>
@@ -143,10 +131,10 @@ export default function Parallax() {
                 </div>
             </div>
 
-            {/* Parallax Gallery Columns */}
+            {/* Infinite Parallax Gallery */}
             <div className={styles.gallery} ref={galleryRef}>
                 {columnsData.map((colImages, index) => (
-                    <Column key={`${columnsData.length}-${index}`} images={colImages} />
+                    <Column key={`${screenMode}-${index}`} images={colImages} />
                 ))}
             </div>
         </section>
