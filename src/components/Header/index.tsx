@@ -62,80 +62,87 @@ export default function Header() {
 
     useGSAP(
         () => {
-            // Floating scroll button starts scaled to 0 on all devices
-            gsap.set(buttonRef.current, { scale: 0 });
+            const mm = gsap.matchMedia();
 
-            // Initial mask reveal for desktop header items
-            const navItems = gsap.utils.toArray<HTMLElement>(`.${styles.navItem}`);
-            const mobileTrigger = document.querySelector<HTMLElement>(`.${styles.mobileNavTrigger}`);
+            // Desktop (min-width: 769px)
+            mm.add("(min-width: 769px)", () => {
+                // Floating scroll button starts scaled to 0
+                gsap.set(buttonRef.current, { scale: 0 });
 
-            gsap.set(navItems, {
-                yPercent: 120,
-                opacity: 0,
-            });
+                // Initial mask reveal for desktop header items
+                const navItems = gsap.utils.toArray<HTMLElement>(`.${styles.navItem}`);
+                gsap.set(navItems, {
+                    yPercent: 120,
+                    opacity: 0,
+                });
 
-            if (mobileTrigger) {
-                gsap.set(mobileTrigger, { y: 20, opacity: 0 });
-            }
-
-            gsap.to(navItems, {
-                yPercent: 0,
-                opacity: 1,
-                duration: 0.9,
-                stagger: 0.06,
-                delay: 0.35,
-                ease: "kanna",
-            });
-
-            if (mobileTrigger) {
-                gsap.to(mobileTrigger, {
-                    y: 0,
+                gsap.to(navItems, {
+                    yPercent: 0,
                     opacity: 1,
-                    duration: 0.8,
+                    duration: 0.9,
+                    stagger: 0.06,
                     delay: 0.35,
                     ease: "kanna",
                 });
-            }
 
-            ScrollTrigger.create({
-                trigger: document.documentElement,
-                start: 0,
-                end: window.innerHeight * 0.45,
-                onLeave: () => {
-                    // Reveal floating hamburger button on scroll
-                    gsap.to(buttonRef.current, {
-                        scale: 1,
-                        duration: 0.4,
-                        ease: "pop",
-                    });
-                    // Hide main header
-                    gsap.to(headerRef.current, {
-                        y: -60,
-                        opacity: 0,
-                        duration: 0.4,
-                        ease: "kanna",
-                        pointerEvents: "none",
-                    });
-                },
-                onEnterBack: () => {
-                    // Hide floating hamburger button
-                    gsap.to(buttonRef.current, {
-                        scale: 0,
-                        duration: 0.25,
-                        ease: "power2.in",
-                        onComplete: () => {
-                            setIsActive(false);
-                        },
-                    });
-                    // Reveal main header back
-                    gsap.to(headerRef.current, {
+                ScrollTrigger.create({
+                    trigger: document.documentElement,
+                    start: 0,
+                    end: window.innerHeight * 0.45,
+                    onLeave: () => {
+                        // Reveal floating hamburger button on scroll
+                        gsap.to(buttonRef.current, {
+                            scale: 1,
+                            duration: 0.4,
+                            ease: "pop",
+                        });
+                        // Hide main header
+                        gsap.to(headerRef.current, {
+                            y: -60,
+                            opacity: 0,
+                            duration: 0.4,
+                            ease: "kanna",
+                            pointerEvents: "none",
+                        });
+                    },
+                    onEnterBack: () => {
+                        // Hide floating hamburger button
+                        gsap.to(buttonRef.current, {
+                            scale: 0,
+                            duration: 0.25,
+                            ease: "power2.in",
+                            onComplete: () => {
+                                setIsActive(false);
+                            },
+                        });
+                        // Reveal main header back
+                        gsap.to(headerRef.current, {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.5,
+                            ease: "kanna",
+                            pointerEvents: "auto",
+                        });
+                    },
+                });
+            });
+
+            // Mobile (max-width: 768px)
+            mm.add("(max-width: 768px)", () => {
+                // Circular button is not used on mobile
+                gsap.set(buttonRef.current, { scale: 0 });
+
+                const mobileTrigger = document.querySelector<HTMLElement>(`.${styles.mobileNavTrigger}`);
+                if (mobileTrigger) {
+                    gsap.set(mobileTrigger, { y: 20, opacity: 0 });
+                    gsap.to(mobileTrigger, {
                         y: 0,
                         opacity: 1,
-                        duration: 0.5,
+                        duration: 0.8,
+                        delay: 0.35,
                         ease: "kanna",
-                        pointerEvents: "auto",
                     });
-                },
+                }
             });
         },
         { scope: headerRef }

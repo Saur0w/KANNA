@@ -18,12 +18,10 @@ interface CurveProps {
 }
 
 const Curve = forwardRef<SVGPathElement, CurveProps>(function Curve(
-    { isMobile = false, isActive = true },
+    { isMobile = false },
     ref
 ) {
-    const defaultD = isMobile
-        ? (isActive ? MOBILE_TARGET_PATH : MOBILE_INITIAL_PATH)
-        : (isActive ? DESKTOP_TARGET_PATH : DESKTOP_INITIAL_PATH);
+    const defaultD = isMobile ? MOBILE_TARGET_PATH : DESKTOP_TARGET_PATH;
 
     return (
         <svg
