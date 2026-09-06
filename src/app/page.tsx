@@ -37,8 +37,8 @@ export default function Home() {
             <Header />
             <Landing />
             <Des />
-            <Objects />
             <Gallery />
+            <Objects />
             <Projects />
         </main>
     );

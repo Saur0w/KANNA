@@ -1,5 +1,351 @@
 .gallery {
-  min-height: 100vh;
   width: 100%;
-  background: #F2F1ED;
+  min-height: 100vh;
+  background-color: #f1ede8;
+  color: #161514;
+  padding: clamp(5rem, 8vw, 8.5rem) clamp(1.5rem, 5vw, 4.5rem);
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1560px;
+  display: flex;
+  flex-direction: column;
+}
+
+// Section Header
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(22, 21, 20, 0.12);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+
+  .headerMeta {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .headerTag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(22, 21, 20, 0.45);
+    }
+
+    .headerTitle {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #161514;
+    }
+  }
+
+  .headerRight {
+    .headerCount {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(22, 21, 20, 0.38);
+    }
+  }
+}
+
+// List of Projects
+.list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+// Single Project Row
+.row {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: clamp(100px, 10vw, 160px) 1fr clamp(280px, 25vw, 440px);
+  align-items: center;
+  gap: clamp(1.5rem, 3.5vw, 4rem);
+  padding: clamp(2.2rem, 3.2vw, 3.4rem) 0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(22, 21, 20, 0.1);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.4s ease;
+
+  // Dimming effect when another row is hovered
+  &.dimmed {
+    opacity: 0.28;
+  }
+
+  // Left Column: Big Index Number
+  .leftCol {
+    display: flex;
+    align-items: baseline;
+
+    .index {
+      font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+      font-size: clamp(3.2rem, 5.5vw, 6.2rem);
+      font-weight: 300;
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+      color: #161514;
+      transition: color 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+
+  // Middle Column: Category, Title, Description
+  .midCol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 580px;
+    gap: 0.45rem;
+
+    .metaRow {
+      .category {
+        font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(22, 21, 20, 0.42);
+        transition: color 0.35s ease;
+      }
+    }
+
+    .titleRow {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+
+      .title {
+        font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+        font-size: clamp(2rem, 3.8vw, 4.2rem);
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -0.025em;
+        text-transform: uppercase;
+        color: #161514;
+        margin: 0;
+        transition: color 0.35s ease;
+      }
+
+      .arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translate(-8px, 6px);
+        color: #161514;
+        transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+    }
+
+    .description {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+      line-height: 1.5;
+      color: rgba(22, 21, 20, 0.65);
+      margin: 0.4rem 0 0 0;
+      max-width: 500px;
+      transition: color 0.35s ease;
+    }
+  }
+
+  // Right Column: Cinematic Image Preview
+  .rightCol {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    .imageWrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 4px;
+      overflow: hidden;
+      background: rgba(22, 21, 20, 0.05);
+      clip-path: inset(100% 0% 0% 0% round 4px);
+      opacity: 0;
+      transform: scale(0.96);
+      transition: clip-path 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.45s ease,
+                  transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+
+      .image {
+        object-fit: cover;
+        transform: scale(1.15);
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .imageOverlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 70%, rgba(0, 0, 0, 0.12));
+        pointer-events: none;
+      }
+    }
+  }
+
+  // Dynamic Underline Accent
+  .accentLine {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: #161514;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+  }
+
+  // --- Active / Highlighted State ---
+  &.active {
+    opacity: 1;
+
+    .leftCol .index {
+      transform: translateX(6px);
+      color: #161514;
+    }
+
+    .midCol {
+      .titleRow {
+        transform: translateX(12px);
+
+        .arrow {
+          opacity: 1;
+          transform: translate(0, 0);
+        }
+      }
+
+      .metaRow .category {
+        color: #161514;
+      }
+
+      .description {
+        color: #161514;
+      }
+    }
+
+    .rightCol .imageWrapper {
+      clip-path: inset(0% 0% 0% 0% round 4px);
+      opacity: 1;
+      transform: scale(1);
+
+      .image {
+        transform: scale(1);
+      }
+    }
+
+    .accentLine {
+      transform: scaleX(1);
+    }
+  }
+}
+
+// Tablet Breakpoint
+@media (max-width: 1024px) {
+  .gallery {
+    padding: 5rem 2rem;
+  }
+
+  .row {
+    grid-template-columns: 80px 1fr clamp(220px, 28vw, 300px);
+    gap: 2rem;
+  }
+}
+
+// Mobile Breakpoint
+@media (max-width: 768px) {
+  .gallery {
+    padding: 4rem 1.25rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding-bottom: 1.5rem;
+
+    .headerMeta {
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: flex-start;
+    }
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding: 1.8rem 0;
+
+    .leftCol {
+      .index {
+        font-size: 2.8rem;
+      }
+    }
+
+    .midCol {
+      max-width: 100%;
+
+      .titleRow {
+        .title {
+          font-size: 2.4rem;
+        }
+
+        .arrow {
+          opacity: 1;
+          transform: translate(0, 0);
+        }
+      }
+    }
+
+    .rightCol {
+      display: none;
+      width: 100%;
+
+      .imageWrapper {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+      }
+    }
+
+    &.active {
+      .midCol .titleRow {
+        transform: none;
+      }
+
+      .leftCol .index {
+        transform: none;
+      }
+
+      .rightCol {
+        display: block;
+        margin-top: 0.5rem;
+
+        .imageWrapper {
+          clip-path: inset(0% 0% 0% 0% round 4px);
+          opacity: 1;
+          transform: scale(1);
+
+          .image {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  }
 }

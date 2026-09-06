@@ -1,0 +1,84 @@
+.project{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 100px 50px 100px;
+  border-top: 1px solid rgb(201, 201, 201);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  @media (max-width: 1024px) {
+    padding: 40px 60px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 30px 40px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  h2{
+    font-size: 60px;
+    margin: 0;
+    font-weight: 400;
+    transition: all 0.4s;
+
+    @media (max-width: 1024px) {
+      font-size: 48px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 36px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 28px;
+    }
+  }
+
+  p{
+    transition: all 0.4s;
+    font-weight: 300;
+
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+
+  &:last-of-type{
+    border-bottom: 1px solid rgb(201, 201, 201);
+  }
+
+  &:hover{
+    opacity: 0.5;
+
+    h2{
+      transform: translateX(-10px);
+    }
+
+    p{
+      transform: translateX(10px);
+    }
+
+    @media (max-width: 768px) {
+      h2 {
+        transform: translateX(-5px);
+      }
+      p {
+        transform: translateX(5px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2, p {
+        transform: none;
+      }
+    }
+  }
+}
