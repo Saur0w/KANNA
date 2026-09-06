@@ -71,7 +71,6 @@ export default function Gallery() {
   return (
     <section className={styles.gallery}>
       <div className={styles.container}>
-        {/* Editorial Section Header */}
         <header className={styles.header}>
           <div className={styles.headerMeta}>
             <span className={styles.headerTag}>02 // ARCHIVE</span>
@@ -82,7 +81,6 @@ export default function Gallery() {
           </div>
         </header>
 
-        {/* Wide Interactive List */}
         <div
           className={styles.list}
           onMouseLeave={() => setIsHovered(false)}
@@ -103,12 +101,10 @@ export default function Gallery() {
                   setActiveIndex(index);
                 }}
               >
-                {/* Index Column */}
                 <div className={styles.leftCol}>
                   <span className={styles.index}>{item.id}</span>
                 </div>
 
-                {/* Title & Description Column */}
                 <div className={styles.midCol}>
                   <div className={styles.metaRow}>
                     <span className={styles.category}>{item.category}</span>
@@ -135,8 +131,6 @@ export default function Gallery() {
 
                   <p className={styles.description}>{item.type}</p>
                 </div>
-
-                {/* Cinematic Image Preview Column */}
                 <div className={styles.rightCol}>
                   <div className={styles.imageWrapper}>
                     <Image
@@ -150,8 +144,6 @@ export default function Gallery() {
                     <div className={styles.imageOverlay} />
                   </div>
                 </div>
-
-                {/* Bottom Accent Line */}
                 <div className={styles.accentLine} />
               </div>
             );

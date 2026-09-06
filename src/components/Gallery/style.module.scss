@@ -17,7 +17,6 @@
   flex-direction: column;
 }
 
-// Section Header
 .header {
   width: 100%;
   display: flex;
@@ -61,14 +60,12 @@
   }
 }
 
-// List of Projects
 .list {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-// Single Project Row
 .row {
   position: relative;
   width: 100%;
@@ -82,12 +79,9 @@
   transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.4s ease;
 
-  // Dimming effect when another row is hovered
   &.dimmed {
     opacity: 0.28;
   }
-
-  // Left Column: Big Index Number
   .leftCol {
     display: flex;
     align-items: baseline;
@@ -103,7 +97,6 @@
     }
   }
 
-  // Middle Column: Category, Title, Description
   .midCol {
     display: flex;
     flex-direction: column;
@@ -163,7 +156,6 @@
     }
   }
 
-  // Right Column: Cinematic Image Preview
   .rightCol {
     display: flex;
     justify-content: flex-end;
@@ -173,7 +165,6 @@
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 10;
-      border-radius: 4px;
       overflow: hidden;
       background: rgba(22, 21, 20, 0.05);
       clip-path: inset(100% 0% 0% 0% round 4px);
