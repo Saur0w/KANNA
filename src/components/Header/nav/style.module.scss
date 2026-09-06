@@ -52,11 +52,10 @@
       will-change: transform, opacity;
 
       .tagDot {
-        width: 6px;
-        height: 6px;
+        width: 4px;
+        height: 4px;
         border-radius: 50%;
-        background-color: #c42b1c;
-        box-shadow: 0 0 10px rgba(196, 43, 28, 0.9);
+        background-color: rgba(242, 241, 237, 0.45);
       }
 
       .tagText {

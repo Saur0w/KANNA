@@ -83,21 +83,18 @@
         .mobileMenuBtn {
           display: inline-flex;
           align-items: center;
-          gap: 0.55rem;
-          padding: 0.45rem 0.85rem;
+          gap: 0.5rem;
+          padding: 0.35rem 0.5rem 0.35rem 0;
           cursor: pointer;
           user-select: none;
-          background: rgba(18, 18, 20, 0.6);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(242, 241, 237, 0.14);
-          border-radius: 9999px;
+          background: transparent;
+          border: none;
           outline: none;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-          transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+          box-shadow: none;
+          transition: opacity 0.25s ease, transform 0.25s ease;
 
           &:active {
-            transform: scale(0.96);
+            transform: scale(0.97);
           }
 
           .mobileMenuText {
@@ -110,18 +107,18 @@
           }
 
           .mobileMenuDot {
-            width: 5px;
-            height: 5px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             background-color: #f2f1ed;
-            opacity: 0.6;
-            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0.45;
+            transition: opacity 0.3s ease, transform 0.3s ease;
 
             &.mobileMenuDotActive {
-              background-color: #c42b1c;
-              box-shadow: 0 0 8px rgba(196, 43, 28, 0.9);
-              transform: scale(1.3);
+              background-color: #ffffff;
+              transform: scale(1.25);
               opacity: 1;
+              box-shadow: none;
             }
           }
         }
@@ -184,37 +181,36 @@
   .button {
     position: relative;
     margin: 20px;
-    width: 80px;
-    height: 80px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
-    background: #1c1d20;
-    border: 1px solid rgba(242, 241, 237, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    background: #18191b;
+    border: 1px solid rgba(242, 241, 237, 0.12);
+    box-shadow: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.35s ease,
-                box-shadow 0.35s ease;
+                border-color 0.35s ease;
 
     @media (max-width: 768px) {
-      width: 56px;
-      height: 56px;
+      width: 54px;
+      height: 54px;
       margin: 16px;
     }
 
     &:hover {
-      background: #c42b1c;
-      border-color: rgba(196, 43, 28, 0.4);
-      transform: scale(1.06);
+      background: #25262a;
+      border-color: rgba(242, 241, 237, 0.3);
+      transform: scale(1.05);
     }
 
     &.buttonActive {
-      background: #c42b1c;
-      border-color: rgba(196, 43, 28, 0.6);
-      box-shadow: 0 8px 25px rgba(196, 43, 28, 0.4);
+      background: #28292d;
+      border-color: rgba(242, 241, 237, 0.5);
+      box-shadow: none;
     }
   }
 
