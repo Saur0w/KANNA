@@ -44,8 +44,10 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
                 autoRaf: false,
                 smoothWheel: smooth,
                 syncTouch: false,
-                lerp: 0.085,
-                wheelMultiplier: 0.9,
+                duration: 1.15,
+                easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                wheelMultiplier: 1.08,
+                touchMultiplier: 1.5,
                 anchors: true,
             }}
         >
