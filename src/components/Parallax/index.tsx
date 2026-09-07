@@ -53,8 +53,6 @@ function Column({ images }: ColumnProps) {
 export default function Parallax() {
     const containerRef = useRef<HTMLDivElement>(null);
     const galleryRef = useRef<HTMLDivElement>(null);
-
-    // Responsive columns state
     const [columnsData, setColumnsData] = useState<string[][]>(DESKTOP_COLUMNS);
     const [screenMode, setScreenMode] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
 
@@ -87,9 +85,6 @@ export default function Parallax() {
 
             const height = window.innerHeight;
 
-            // Staggered positive downward travel: columns start with negative top in CSS,
-            // and travel down smoothly. Columns 2 and 4 move faster than 1 and 3.
-            // Neither top nor bottom ever runs empty!
             const speeds = screenMode === 'mobile'
                 ? [height * 0.45, height * 0.85]
                 : screenMode === 'tablet'
@@ -120,18 +115,6 @@ export default function Parallax() {
 
     return (
         <section className={styles.parallax} ref={containerRef}>
-            {/* Section Header */}
-            <div className={styles.parallaxHeader}>
-                <div className={styles.headerLeft}>
-                    <span className={styles.sectionIndex}>03 // VISUAL DIARY</span>
-                    <h2 className={styles.sectionTitle}>THE ATELIER ARCHIVE</h2>
-                </div>
-                <div className={styles.headerRight}>
-                    <span className={styles.sectionDesc}>12 ARTIFACTS IN HIGH-FIRE STONEWARE</span>
-                </div>
-            </div>
-
-            {/* Infinite Parallax Gallery */}
             <div className={styles.gallery} ref={galleryRef}>
                 {columnsData.map((colImages, index) => (
                     <Column key={`${screenMode}-${index}`} images={colImages} />

@@ -1,0 +1,16 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  contain: paint;
+}
+
+.inner {
+  position: absolute;
+  inset: -10% 0;
+  will-change: transform;
+
+  img {
+    object-fit: cover;
+  }
+}

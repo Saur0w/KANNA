@@ -13,7 +13,9 @@ export default function Footer() {
 
     return (
         <footer className={styles.footer} ref={containerRef}>
-
+            <div className={styles.mainHeading}>
+                <h1>KANNA</h1>
+            </div>
         </footer>
     )
 }

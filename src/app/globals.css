@@ -11,14 +11,9 @@
   box-sizing: border-box;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
 
 html,
 body {
   overflow-x: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   font-family: var(--font-montserrat), 'Montserrat', sans-serif;
 }
