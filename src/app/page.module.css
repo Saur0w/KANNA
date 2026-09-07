@@ -1,0 +1,6 @@
+.page {
+  position: relative;
+  z-index: 2;
+  background-color: #F2F1ED;
+  width: 100%;
+}

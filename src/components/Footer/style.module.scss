@@ -1,15 +1,31 @@
-.footer {
+/* --- Sticky Reveal Wrapper --- */
+.footerWrapper {
   position: relative;
+  width: 100%;
+  height: 65vh;
+  min-height: 520px;
+  clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0% 100%);
+  z-index: 1;
+}
+
+/* --- Fixed Bottom Curtain Footer --- */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  min-height: 60vh;
+  height: 65vh;
+  min-height: 520px;
   background-color: #030303;
   color: #f7f7f7;
   padding: clamp(2rem, 4vw, 3.5rem);
   box-sizing: border-box;
   overflow: hidden;
+  z-index: 1;
+  font-family: var(--font-montserrat), sans-serif;
 }
 
 /* --- Top Navigation --- */
@@ -20,7 +36,7 @@
   z-index: 2;
 
   .navLink {
-    font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
     font-weight: 400;
     color: #f7f7f7;
     text-decoration: underline;
@@ -28,6 +44,7 @@
     text-decoration-thickness: 1px;
     letter-spacing: -0.01em;
     transition: opacity 0.25s ease;
+    will-change: transform, opacity;
 
     &:hover {
       opacity: 0.6;
@@ -48,12 +65,14 @@
 .mainHeading {
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  font-size: clamp(5.5rem, 21vw, 24rem);
+  font-size: clamp(3.5rem, 17.5vw, 20rem);
   line-height: 0.85;
   font-weight: 300;
   letter-spacing: -0.03em;
   text-transform: uppercase;
+  color: #ffffff;
   margin: 0;
   padding: 0;
 
@@ -66,7 +85,7 @@
 
   .char {
     display: inline-block;
-    will-change: transform;
+    will-change: transform, opacity;
   }
 }
 
@@ -89,11 +108,13 @@
   padding: 0;
 
   .socialItem {
+    will-change: transform, opacity;
+
     .socialLink {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+      font-size: clamp(0.9rem, 1.05vw, 1.05rem);
       font-weight: 400;
       color: #e5e5e5;
       text-decoration: none;
@@ -114,20 +135,27 @@
 }
 
 .credit {
-  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
   font-weight: 400;
   color: #f7f7f7;
   letter-spacing: -0.01em;
+  will-change: transform, opacity;
 
   p {
     margin: 0;
   }
 }
 
-/* --- Mobile Optimizations --- */
+/* --- Responsive Layout --- */
 @media (max-width: 768px) {
+  .footerWrapper {
+    height: 80vh;
+    min-height: 560px;
+  }
+
   .footer {
-    min-height: 85vh;
+    height: 80vh;
+    min-height: 560px;
     padding: 2rem 1.5rem;
   }
 
@@ -135,10 +163,14 @@
     gap: 1.25rem 2rem;
   }
 
+  .mainHeading {
+    font-size: clamp(2.8rem, 17.5vw, 5.5rem);
+  }
+
   .bottomBar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 2.5rem;
+    gap: 2rem;
   }
 
   .credit {
