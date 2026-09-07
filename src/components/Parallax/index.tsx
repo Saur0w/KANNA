@@ -2,12 +2,9 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import styles from './style.module.scss';
-import Image from 'next/image';
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { gsap, useGSAP } from "@/lib/gsap";
+import { useScrollSkew } from "@/hooks/useScrollSkew";
+import ParallaxImage from "@/components/ParallaxImage";
 
 const DESKTOP_COLUMNS = [
     ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "1.jpg"],
@@ -35,16 +32,14 @@ function Column({ images }: ColumnProps) {
     return (
         <div className={styles.column}>
             {images.map((src, index) => (
-                <div key={index} className={styles.imageContainer}>
-                    <Image
-                        src={`/images/parallax/${src}`}
-                        fill
-                        alt={`Kanna stoneware piece ${src}`}
-                        style={{ objectFit: 'cover' }}
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    />
-                    <div className={styles.cardOverlay} />
-                </div>
+                <ParallaxImage
+                    key={index}
+                    className={styles.imageContainer}
+                    src={`/images/parallax/${src}`}
+                    alt={`Kanna stoneware piece ${src}`}
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    strength={6}
+                />
             ))}
         </div>
     );
@@ -52,7 +47,7 @@ function Column({ images }: ColumnProps) {
 
 export default function Parallax() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const galleryRef = useRef<HTMLDivElement>(null);
+    const galleryRef = useScrollSkew<HTMLDivElement>({ maxSkew: 3, factor: 0.05 });
     const [columnsData, setColumnsData] = useState<string[][]>(DESKTOP_COLUMNS);
     const [screenMode, setScreenMode] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
 
@@ -104,7 +99,7 @@ export default function Parallax() {
                             trigger: galleryRef.current,
                             start: "top bottom",
                             end: "bottom top",
-                            scrub: 1.2,
+                            scrub: true,
                         },
                     }
                 );

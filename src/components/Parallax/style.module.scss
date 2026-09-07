@@ -60,11 +60,11 @@
   }
 }
 
-// Parallax Gallery Container
 .gallery {
   position: relative;
   width: 100%;
   height: clamp(130vh, 160vh, 175vh);
+  will-change: transform;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -73,6 +73,19 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  &:hover img {
+    transform: scale(1.06);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 75%, rgba(0, 0, 0, 0.25));
+    pointer-events: none;
+    z-index: 1;
+  }
+
   @media (max-width: 768px) {
     height: 135vh;
     gap: 12px;
@@ -80,7 +93,6 @@
   }
 }
 
-// Individual Column
 .column {
   flex: 1;
   display: flex;
