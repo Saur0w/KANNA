@@ -38,53 +38,57 @@ export default function Footer() {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: wrapperRef.current,
-                    start: "top 80%",
+                    start: "top 82%",
                     toggleActions: "play none none reverse",
                 },
             });
 
-            // 1. Stagger horizontal reveal of page navigation links (sweeping in from left)
+            // 1. Stagger horizontal mask reveal of page navigation links
             tl.fromTo(
                 `.${styles.navLink}`,
                 {
-                    x: -35,
+                    yPercent: 125,
+                    xPercent: -12,
                     opacity: 0,
                 },
                 {
-                    x: 0,
+                    yPercent: 0,
+                    xPercent: 0,
                     opacity: 1,
-                    duration: 0.75,
-                    stagger: 0.07,
+                    duration: 0.85,
+                    stagger: 0.06,
                     ease: "power3.out",
                 }
             )
-                // 2. SplitText letter mask reveal: letters slide up from behind overflow:hidden mask
+                // 2. Split letter mask reveal: letters slide up from behind overflow:hidden mask
                 .fromTo(
                     `.${styles.char}`,
                     {
-                        yPercent: 120,
+                        yPercent: 125,
                         rotateZ: 2.5,
+                        opacity: 0,
                     },
                     {
                         yPercent: 0,
                         rotateZ: 0,
-                        duration: 1.05,
-                        stagger: 0.07,
+                        opacity: 1,
+                        duration: 1.0,
+                        stagger: 0.06,
                         ease: "power4.out",
                     },
-                    "-=0.45"
+                    "-=0.55"
                 )
-                // 3. Socials and credit reveal sliding up
+                // 3. Socials and credit mask reveal sliding up
                 .fromTo(
-                    [`.${styles.socialItem}`, `.${styles.credit}`],
+                    [`.${styles.socialLink}`, `.${styles.credit} p`],
                     {
-                        y: 20,
+                        yPercent: 115,
                         opacity: 0,
                     },
                     {
-                        y: 0,
+                        yPercent: 0,
                         opacity: 1,
-                        duration: 0.7,
+                        duration: 0.75,
                         stagger: 0.04,
                         ease: "power3.out",
                     },
@@ -101,12 +105,14 @@ export default function Footer() {
     return (
         <div ref={wrapperRef} className={styles.footerWrapper}>
             <footer ref={containerRef} className={styles.footer}>
-                {/* Top Navigation: Horizontal Underlined Links */}
+                {/* Top Navigation: Horizontal Underlined Links with Masked Reveal */}
                 <nav className={styles.topNav} aria-label="Footer Navigation">
                     {NAV_LINKS.map((link) => (
-                        <Link key={link.label} href={link.href} className={styles.navLink}>
-                            {link.label}
-                        </Link>
+                        <span key={link.label} className={styles.linkMask}>
+                            <Link href={link.href} className={styles.navLink}>
+                                {link.label}
+                            </Link>
+                        </span>
                     ))}
                 </nav>
 
@@ -126,20 +132,24 @@ export default function Footer() {
                     <ul className={styles.socialList}>
                         {SOCIAL_LINKS.map((item) => (
                             <li key={item.label} className={styles.socialItem}>
-                                <a
-                                    href={item.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.socialLink}
-                                >
-                                    <span className={styles.bullet}>•</span> {item.label}
-                                </a>
+                                <span className={styles.socialMask}>
+                                    <a
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialLink}
+                                    >
+                                        <span className={styles.bullet}>•</span> {item.label}
+                                    </a>
+                                </span>
                             </li>
                         ))}
                     </ul>
 
                     <div className={styles.credit}>
-                        <p>Made by Saurow</p>
+                        <span className={styles.creditMask}>
+                            <p>Made by Saurow</p>
+                        </span>
                     </div>
                 </div>
             </footer>
