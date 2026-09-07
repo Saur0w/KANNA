@@ -60,7 +60,7 @@ export default function Des() {
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: containerRef.current,
-                        start: "top 78%",
+                        start: "top 95%",
                         toggleActions: "play none none reverse",
                     },
                 });

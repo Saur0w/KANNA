@@ -1,5 +1,95 @@
 .workshop {
-    height: 100vh;
-    width: 100vw;
-    
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+
+  @media (max-width: 900px) {
+    flex-direction: column-reverse;
+    min-height: auto;
+  }
+}
+
+.left {
+  flex: 1;
+  background-color: #dce4dc; // Soft sage green
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 80px 7vw 80px 9vw;
+
+  @media (max-width: 1200px) {
+    padding: 60px 5vw 60px 6vw;
+  }
+
+  @media (max-width: 900px) {
+    justify-content: flex-start;
+    padding: 60px 24px 80px;
+    width: 100%;
+  }
+
+  .content {
+    max-width: 440px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(60px, 12vh, 120px);
+  }
+
+  .heading {
+    font-family: serif; // Matches the high-contrast serif typeface in design
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .paragraph {
+    font-family: serif;
+    font-size: clamp(0.95rem, 1.15vw, 1.125rem);
+    line-height: 1.6;
+    color: #262626;
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+.right {
+  flex: 1;
+  background-color: #f1ede8; // Warm off-white / sand
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 5vw;
+
+  @media (max-width: 900px) {
+    padding: 60px 24px 20px;
+    width: 100%;
+  }
+
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    clip-path: inset(0% 0% 0% 0%);
+
+    @media (max-width: 900px) {
+      max-width: 420px;
+      aspect-ratio: 4 / 5;
+    }
+
+    img {
+      object-fit: cover;
+    }
+  }
+}
+
+// Helper wrapper for GSAP SplitText overflow hidden masking
+.lineWrap {
+  overflow: hidden;
 }

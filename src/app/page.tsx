@@ -10,6 +10,7 @@ import Gallery from "@/components/Gallery";
 import Projects from "@/components/Projects";
 import Objects from "@/components/Objects";
 import Parallax from "@/components/Parallax";
+import Workshop from "@/components/Workshop";
 
 export default function Home() {
     useEffect(() => {
@@ -39,6 +40,7 @@ export default function Home() {
             <Landing />
             <Des />
             <Gallery />
+            <Workshop />
             <Parallax />
             <Objects />
             <Projects />
