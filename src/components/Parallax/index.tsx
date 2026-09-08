@@ -73,7 +73,7 @@ export default function Parallax() {
 
     useGSAP(
         () => {
-            if (!galleryRef.current) return;
+            if (!containerRef.current || !galleryRef.current) return;
 
             const columnElements = gsap.utils.toArray<HTMLElement>(`.${styles.column}`);
             if (!columnElements.length) return;
@@ -97,7 +97,7 @@ export default function Parallax() {
                         y: travel * 0.5,
                         ease: "none",
                         scrollTrigger: {
-                            trigger: galleryRef.current,
+                            trigger: containerRef.current,
                             start: "top bottom",
                             end: "bottom top",
                             scrub: 1.2,
@@ -111,10 +111,12 @@ export default function Parallax() {
 
     return (
         <section className={styles.parallax} ref={containerRef}>
-            <div className={styles.gallery} ref={galleryRef}>
-                {columnsData.map((colImages, index) => (
-                    <Column key={`${screenMode}-${index}`} images={colImages} />
-                ))}
+            <div className={styles.fixedTrack}>
+                <div className={styles.gallery} ref={galleryRef}>
+                    {columnsData.map((colImages, index) => (
+                        <Column key={`${screenMode}-${index}`} images={colImages} />
+                    ))}
+                </div>
             </div>
         </section>
     );
