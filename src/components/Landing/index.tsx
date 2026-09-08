@@ -3,11 +3,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import styles from "./style.module.scss";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { gsap, useGSAP } from "@/lib/gsap";
 
 const TITLE = "KANNA";
 
@@ -22,22 +18,22 @@ type IntroConfig = {
 };
 
 const DESKTOP_CONFIG: IntroConfig = {
-    charYPercent: 130,
-    charRotateX: -90,
-    delay: 0.25,
-    charDuration: 1.25,
-    charStagger: 0.05,
-    phase2Duration: 1.5,
+    charYPercent: 125,
+    charRotateX: -25,
+    delay: 0.15,
+    charDuration: 1.15,
+    charStagger: 0.04,
+    phase2Duration: 1.4,
     upperSectionHeight: "60vh",
 };
 
 const MOBILE_CONFIG: IntroConfig = {
-    charYPercent: 120,
+    charYPercent: 115,
     charRotateX: 0,
-    delay: 0.2,
-    charDuration: 1,
-    charStagger: 0.04,
-    phase2Duration: 1.3,
+    delay: 0.12,
+    charDuration: 0.95,
+    charStagger: 0.035,
+    phase2Duration: 1.25,
     upperSectionHeight: "60vh",
 };
 
@@ -57,7 +53,7 @@ export default function Landing() {
             const buildIntro = (cfg: IntroConfig) => {
                 if (!copyRef.current) return;
 
-                gsap.set(copyRef.current, { opacity: 0, y: 15 });
+                gsap.set(copyRef.current, { opacity: 0, yPercent: 40 });
 
                 gsap.set(chars, {
                     yPercent: cfg.charYPercent,
@@ -66,10 +62,10 @@ export default function Landing() {
                 });
 
                 const tl = gsap.timeline({
-                    defaults: { ease: "expo.out" },
                     delay: cfg.delay,
                 });
 
+                // 1. Mill3-style character slide-in with custom cubic ease
                 tl.to(
                     chars,
                     {
@@ -78,7 +74,7 @@ export default function Landing() {
                         opacity: 1,
                         duration: cfg.charDuration,
                         stagger: cfg.charStagger,
-                        ease: "power4.out",
+                        ease: "mill3",
                     },
                     0
                 )
@@ -86,18 +82,19 @@ export default function Landing() {
                         copyRef.current,
                         {
                             opacity: 1,
-                            y: 0,
-                            duration: 1,
-                            ease: "power3.out",
+                            yPercent: 0,
+                            duration: 0.9,
+                            ease: "mill3",
                         },
-                        0.15
+                        0.25
                     )
+                    // 2. Banner height collapse revealing the stoneware vase below
                     .to(
                         bannerRef.current,
                         {
                             height: cfg.upperSectionHeight,
                             duration: cfg.phase2Duration,
-                            ease: "expo.inOut",
+                            ease: "mill3-inOut",
                         },
                         ">0.05"
                     );
@@ -105,6 +102,25 @@ export default function Landing() {
 
             mm.add("(min-width: 769px)", () => buildIntro(DESKTOP_CONFIG));
             mm.add("(max-width: 768px)", () => buildIntro(MOBILE_CONFIG));
+
+            // 3. Mill3-style subtle scroll parallax on the hero vase image
+            if (imageWrapperRef.current && lowerRef.current) {
+                gsap.fromTo(
+                    imageWrapperRef.current,
+                    { yPercent: -4, scale: 1.05 },
+                    {
+                        yPercent: 5,
+                        scale: 1,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: lowerRef.current,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true,
+                        },
+                    }
+                );
+            }
         },
         { scope: containerRef }
     );

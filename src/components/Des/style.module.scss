@@ -1,27 +1,64 @@
 .des {
-  min-height: 45vh;
   width: 100%;
-  background: #f1ede8;
+  background-color: #f1ede8;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: left;
-  padding: clamp(4rem, 12vh, 8rem) clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(5rem, 9vw, 9rem) clamp(1.5rem, 4.5vw, 5rem);
   box-sizing: border-box;
+  border-top: 1px solid rgba(25, 24, 23, 0.08);
 
-  .headingWrapper {
+  .container {
     width: 100%;
-    max-width: 1096px;
-    height: auto;
-    background: transparent;
+    max-width: 1400px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: clamp(2rem, 5vw, 6rem);
+    align-items: flex-start;
 
-    p {
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .leftCol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .kicker {
+      font-family: var(--font-geist-mono), monospace, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(25, 24, 23, 0.5);
+    }
+
+    .sectionHeading {
+      font-family: var(--font-montserrat), sans-serif;
+      font-size: clamp(1.6rem, 2.2vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+      text-transform: uppercase;
+      color: #121212;
+      margin: 0;
+    }
+  }
+
+  .rightCol {
+    width: 100%;
+    max-width: 860px;
+
+    .bodyText {
       font-family: "Cormorant Garamond", serif;
       font-weight: 500;
-      font-size: clamp(1.35rem, 2.5vw, 30px);
-      line-height: 1.45;
-      color: #0F0F0F;
+      font-size: clamp(1.4rem, 2.2vw, 30px);
+      line-height: 1.48;
+      color: #121212;
       margin: 0;
       letter-spacing: -0.01em;
 

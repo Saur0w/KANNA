@@ -1,8 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import styles from './style.module.scss';
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export interface GalleryItem {
   id: string;
@@ -65,13 +68,57 @@ const galleryData: GalleryItem[] = [
 ];
 
 export default function Gallery() {
+  const containerRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 75%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      if (headerRef.current) {
+        tl.fromTo(
+          headerRef.current,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.75, ease: "mill3" },
+          0
+        );
+      }
+
+      const rows = gsap.utils.toArray<HTMLElement>(`.${styles.row}`);
+      if (rows.length) {
+        tl.fromTo(
+          rows,
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            ease: "mill3",
+            stagger: 0.08,
+            clearProps: "all",
+          },
+          0.1
+        );
+      }
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section className={styles.gallery}>
+    <section className={styles.gallery} ref={containerRef}>
       <div className={styles.container}>
-        <header className={styles.header}>
+        <header className={styles.header} ref={headerRef}>
           <div className={styles.headerMeta}>
             <span className={styles.headerTag}>02 // ARCHIVE</span>
             <span className={styles.headerTitle}>SELECTED OBJECTS & VESSELS</span>
@@ -82,6 +129,7 @@ export default function Gallery() {
         </header>
 
         <div
+          ref={listRef}
           className={styles.list}
           onMouseLeave={() => setIsHovered(false)}
         >

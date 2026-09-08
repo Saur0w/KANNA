@@ -56,7 +56,7 @@ export default function Footer() {
                     opacity: 1,
                     duration: 0.85,
                     stagger: 0.06,
-                    ease: "power3.out",
+                    ease: "mill3",
                 }
             )
                 .fromTo(
@@ -70,9 +70,9 @@ export default function Footer() {
                         yPercent: 0,
                         rotateZ: 0,
                         opacity: 1,
-                        duration: 1.0,
-                        stagger: 0.06,
-                        ease: "power4.out",
+                        duration: 1.05,
+                        stagger: 0.055,
+                        ease: "mill3",
                     },
                     "-=0.55"
                 )
@@ -85,9 +85,9 @@ export default function Footer() {
                     {
                         yPercent: 0,
                         opacity: 1,
-                        duration: 0.75,
+                        duration: 0.8,
                         stagger: 0.04,
-                        ease: "power3.out",
+                        ease: "mill3",
                     },
                     "-=0.6"
                 );

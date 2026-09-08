@@ -1,9 +1,7 @@
 "use client";
 
 import styles from "./style.module.scss";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { useRef } from "react";
 import { SplitText } from "gsap/SplitText";
 
@@ -14,6 +12,7 @@ const text = "Conceived as quiet counterpoints to rigid contemporary architectur
 export default function Des() {
     const containerRef = useRef<HTMLElement | null>(null);
     const paragraphRef = useRef<HTMLParagraphElement | null>(null);
+    const kickerRef = useRef<HTMLDivElement | null>(null);
 
     useGSAP(
         () => {
@@ -48,22 +47,38 @@ export default function Des() {
                 });
 
                 gsap.set(splitInstance.lines, {
-                    yPercent: 120,
+                    yPercent: 110,
                     opacity: 0,
                 });
 
-                tweenInstance = gsap.to(splitInstance.lines, {
-                    yPercent: 0,
-                    opacity: 1,
-                    duration: 1.05,
-                    stagger: 0.075,
-                    ease: "power3.out",
+                const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: containerRef.current,
-                        start: "top 95%",
+                        start: "top 80%",
                         toggleActions: "play none none reverse",
                     },
                 });
+
+                if (kickerRef.current) {
+                    tl.fromTo(
+                        kickerRef.current,
+                        { opacity: 0, y: 15 },
+                        { opacity: 1, y: 0, duration: 0.7, ease: "mill3" },
+                        0
+                    );
+                }
+
+                tl.to(
+                    splitInstance.lines,
+                    {
+                        yPercent: 0,
+                        opacity: 1,
+                        duration: 0.95,
+                        stagger: 0.05,
+                        ease: "mill3",
+                    },
+                    0.15
+                );
             };
 
             initSplit();
@@ -81,7 +96,7 @@ export default function Des() {
                 resizeTimer = setTimeout(() => {
                     initSplit();
                     ScrollTrigger.refresh();
-                }, 200);
+                });
             };
 
             window.addEventListener("resize", handleResize);
@@ -102,10 +117,20 @@ export default function Des() {
 
     return (
         <section className={styles.des} ref={containerRef}>
-            <div className={styles.headingWrapper}>
-                <p ref={paragraphRef}>
-                    {text}
-                </p>
+            <div className={styles.container}>
+                <div className={styles.leftCol} ref={kickerRef}>
+                    <span className={styles.kicker}>01 // CONTEXT</span>
+                    <h2 className={styles.sectionHeading}>
+                        OBJECTS IN
+                        <br />
+                        DIALOGUE
+                    </h2>
+                </div>
+                <div className={styles.rightCol}>
+                    <p ref={paragraphRef} className={styles.bodyText}>
+                        {text}
+                    </p>
+                </div>
             </div>
         </section>
     );

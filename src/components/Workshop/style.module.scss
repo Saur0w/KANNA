@@ -4,8 +4,9 @@
   width: 100%;
   display: flex;
   overflow: hidden;
+  box-sizing: border-box;
 
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     flex-direction: column-reverse;
     min-height: auto;
   }
@@ -13,46 +14,84 @@
 
 .left {
   flex: 1;
-  background-color: #dce4dc; 
+  background-color: #dce4dc; // Elegant muted sage green
+  display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 80px 7vw 80px 9vw;
+  padding: clamp(60px, 8vw, 120px) clamp(24px, 6vw, 90px);
+  box-sizing: border-box;
 
-  @media (max-width: 1200px) {
-    padding: 60px 5vw 60px 6vw;
-  }
-
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     justify-content: flex-start;
-    padding: 60px 24px 80px;
+    padding: clamp(48px, 6vw, 80px) 1.5rem;
     width: 100%;
   }
 
   .content {
-    max-width: 440px;
+    max-width: 480px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: clamp(60px, 12vh, 120px);
+    gap: clamp(32px, 5vh, 56px);
+  }
+
+  .headerBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .kicker {
+    font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(22, 21, 20, 0.55);
+    display: inline-block;
   }
 
   .heading {
-    font-family: serif; // Matches the high-contrast serif typeface in design
-    font-size: clamp(2rem, 3.2vw, 3rem);
-    font-weight: 700;
-    color: #1a1a1a;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+    font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+    font-weight: 400;
+    color: #161514;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
     margin: 0;
+    text-transform: uppercase;
   }
 
   .paragraph {
-    font-family: serif;
-    font-size: clamp(0.95rem, 1.15vw, 1.125rem);
-    line-height: 1.6;
-    color: #262626;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(1.1rem, 1.35vw, 1.35rem);
+    line-height: 1.65;
+    color: rgba(22, 21, 20, 0.8);
     margin: 0;
     font-weight: 400;
+  }
+
+  .atelierBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+
+    .badgeDot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #c42b1c;
+    }
+
+    .badgeText {
+      font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(22, 21, 20, 0.6);
+    }
   }
 }
 
@@ -62,32 +101,41 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 5vw;
+  padding: clamp(60px, 8vw, 120px) clamp(24px, 5vw, 80px);
+  box-sizing: border-box;
 
-  @media (max-width: 900px) {
-    padding: 60px 24px 20px;
+  @media (max-width: 960px) {
+    padding: clamp(48px, 6vw, 80px) 1.5rem 2rem;
     width: 100%;
   }
 
   .imageWrapper {
     position: relative;
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    clip-path: inset(0% 0% 0% 0%);
+    background-color: rgba(22, 21, 20, 0.05);
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.08);
 
-    @media (max-width: 900px) {
-      max-width: 420px;
-      aspect-ratio: 4 / 5;
+    @media (max-width: 960px) {
+      max-width: 440px;
     }
 
-    img {
-      object-fit: cover;
+    .innerImage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+
+      .image {
+        object-fit: cover;
+      }
     }
   }
 }
 
-.lineWrap {
+.lineMask {
   overflow: hidden;
+  display: block;
 }

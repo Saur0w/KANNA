@@ -139,9 +139,9 @@
         align-items: center;
         justify-content: center;
         opacity: 0;
-        transform: translate(-8px, 6px);
+        transform: translate(-10px, 10px) rotate(-45deg);
         color: #161514;
-        transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
       }
     }
 
@@ -218,7 +218,7 @@
 
         .arrow {
           opacity: 1;
-          transform: translate(0, 0);
+          transform: translate(0, 0) rotate(0deg);
         }
       }
 

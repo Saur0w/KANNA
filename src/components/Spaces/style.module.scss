@@ -1,23 +1,161 @@
 .spaces {
   position: relative;
+  width: 100%;
   min-height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
-  .left {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background: #F2F1ED;
+  background-color: #eae5de; // Soft stone warm neutral
+  color: #161514;
+  padding: clamp(80px, 10vw, 150px) clamp(24px, 5vw, 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1560px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 6vw, 100px);
+  align-items: center;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vh, 52px);
+  max-width: 580px;
+
+  .headerBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
-  .right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background: #E7E1D6;
+  .kicker {
+    font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(22, 21, 20, 0.5);
   }
+
+  .heading {
+    font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+    font-size: clamp(2.4rem, 4.2vw, 4rem);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: #161514;
+    margin: 0;
+  }
+
+  .bodyText {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+    line-height: 1.65;
+    color: rgba(22, 21, 20, 0.78);
+    margin: 0;
+  }
+
+  .specsGrid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-top: 1px solid rgba(22, 21, 20, 0.14);
+    margin-top: 0.5rem;
+
+    .specRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(22, 21, 20, 0.12);
+      font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+
+      .specLabel {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(22, 21, 20, 0.48);
+      }
+
+      .specValue {
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: #161514;
+      }
+    }
+  }
+}
+
+.rightCol {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .imageFrame {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: rgba(22, 21, 20, 0.05);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.12);
+
+    .innerImage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+
+      .image {
+        object-fit: cover;
+      }
+    }
+
+    .captionBadge {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      background: rgba(242, 241, 237, 0.92);
+      backdrop-filter: blur(12px);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+      border: 1px solid rgba(22, 21, 20, 0.08);
+
+      .captionTag {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        color: #c42b1c;
+      }
+
+      .captionName {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        color: #161514;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+.lineMask {
+  overflow: hidden;
+  display: block;
 }

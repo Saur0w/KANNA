@@ -1,48 +1,88 @@
 "use client";
 
 import styles from "./style.module.scss";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { SplitText } from "gsap/SplitText";
 import { useRef } from "react";
 import Image from "next/image";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 export default function Objects() {
     const containerRef = useRef<HTMLElement | null>(null);
+    const kickerRef = useRef<HTMLSpanElement | null>(null);
+    const titleRef = useRef<HTMLHeadingElement | null>(null);
+    const descRef = useRef<HTMLParagraphElement | null>(null);
 
     useGSAP(
         () => {
-            // 1. Text entrance animation
+            if (!containerRef.current || !titleRef.current || !descRef.current) return;
+
+            const titleSplit = new SplitText(titleRef.current, {
+                type: "lines",
+                linesClass: styles.lineMask,
+            });
+
+            const descSplit = new SplitText(descRef.current, {
+                type: "lines",
+                linesClass: styles.lineMask,
+            });
+
+            titleSplit.lines.forEach((line) => {
+                if (line instanceof HTMLElement) line.style.overflow = "hidden";
+            });
+            descSplit.lines.forEach((line) => {
+                if (line instanceof HTMLElement) line.style.overflow = "hidden";
+            });
+
+            gsap.set(titleSplit.lines, { yPercent: 110, opacity: 0 });
+            gsap.set(descSplit.lines, { yPercent: 110, opacity: 0 });
+
+            // 1. Text entrance animation with Mill3 curves
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: `.${styles.upperSection}`,
-                    start: "top 80%",
+                    start: "top 75%",
+                    toggleActions: "play none none reverse",
                 },
             });
 
-            tl.from(`.${styles.title}`, {
-                opacity: 0,
-                y: 25,
-                duration: 1,
-                ease: "power3.out",
-            }).from(
-                `.${styles.description}`,
+            if (kickerRef.current) {
+                tl.fromTo(
+                    kickerRef.current,
+                    { opacity: 0, y: 15 },
+                    { opacity: 1, y: 0, duration: 0.65, ease: "mill3" },
+                    0
+                );
+            }
+
+            tl.to(
+                titleSplit.lines,
                 {
-                    opacity: 0,
-                    y: 20,
+                    yPercent: 0,
+                    opacity: 1,
                     duration: 0.9,
-                    ease: "power3.out",
+                    ease: "mill3",
+                    stagger: 0.05,
                 },
-                "-=0.6"
+                0.08
+            ).to(
+                descSplit.lines,
+                {
+                    yPercent: 0,
+                    opacity: 1,
+                    duration: 0.85,
+                    ease: "mill3",
+                    stagger: 0.04,
+                },
+                0.22
             );
 
             // 2. Subtle smooth parallax effect across all 3 image panels
             const images = [
-                { selector: `.${styles.one} .${styles.image}`, yFactor: -6 },
-                { selector: `.${styles.two} .${styles.image}`, yFactor: 7 },
-                { selector: `.${styles.three} .${styles.image}`, yFactor: -5 },
+                { selector: `.${styles.one} .${styles.image}`, yFactor: -7 },
+                { selector: `.${styles.two} .${styles.image}`, yFactor: 8 },
+                { selector: `.${styles.three} .${styles.image}`, yFactor: -6 },
             ];
 
             images.forEach(({ selector, yFactor }) => {
@@ -71,7 +111,8 @@ export default function Objects() {
         <section className={styles.objects} ref={containerRef}>
             <div className={styles.upperSection}>
                 <div className={styles.titleCol}>
-                    <h2 className={styles.title}>
+                    <span className={styles.kicker} ref={kickerRef}>05 // SPATIAL VOLUMES</span>
+                    <h2 className={styles.title} ref={titleRef}>
                         OBJECTS &amp;
                         <br />
                         ARCHITECTURE
@@ -79,7 +120,7 @@ export default function Objects() {
                 </div>
 
                 <div className={styles.descCol}>
-                    <p className={styles.description}>
+                    <p className={styles.description} ref={descRef}>
                         Stripped of excess ornament, each vessel is shaped to interact with
                         shifting natural light. Raw stoneware forms designed to ground
                         modern interiors with tactile texture and quiet composure.

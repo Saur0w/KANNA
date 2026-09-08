@@ -78,28 +78,29 @@ export default function Parallax() {
             const columnElements = gsap.utils.toArray<HTMLElement>(`.${styles.column}`);
             if (!columnElements.length) return;
 
-            const height = window.innerHeight;
+            const height = window.innerHeight || 800;
 
-            const speeds = screenMode === 'mobile'
-                ? [height * 0.45, height * 0.85]
+            // Mill3-style alternating column directions and travel distances
+            const travels = screenMode === 'mobile'
+                ? [height * 0.35, -height * 0.30]
                 : screenMode === 'tablet'
-                ? [height * 0.45, height * 0.85, height * 0.50]
-                : [height * 0.45, height * 0.90, height * 0.55, height * 0.95];
+                ? [height * 0.35, -height * 0.30, height * 0.35]
+                : [height * 0.38, -height * 0.32, height * 0.42, -height * 0.28];
 
             columnElements.forEach((col, i) => {
-                const travel = speeds[i % speeds.length];
+                const travel = travels[i % travels.length];
 
                 gsap.fromTo(
                     col,
-                    { y: 0 },
+                    { y: -travel * 0.5 },
                     {
-                        y: travel,
+                        y: travel * 0.5,
                         ease: "none",
                         scrollTrigger: {
                             trigger: galleryRef.current,
                             start: "top bottom",
                             end: "bottom top",
-                            scrub: true,
+                            scrub: 1.2,
                         },
                     }
                 );
