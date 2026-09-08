@@ -1,24 +1,123 @@
 .objects {
   position: relative;
-  height: 100vh;
-  width: 100vw;
-  background: #F2F1ED;
+  width: 100%;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  .upperSection {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 40%;
-    width: 100%;
+/* ===================================================
+   UPPER SECTION
+   3-column grid matching the exact columns of images below
+   =================================================== */
+.upperSection {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  box-sizing: border-box;
+  padding: clamp(3.5rem, 6.5vw, 6.5rem) 0 clamp(3.5rem, 6.5vw, 6.5rem);
 
+  .titleCol {
+    padding-left: clamp(2rem, 5vw, 6rem);
+    padding-right: 1.5rem;
 
+    .title {
+      margin: 0;
+      font-size: clamp(1.4rem, 2vw, 2.1rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      color: #121212;
+      text-transform: uppercase;
+    }
   }
 
-  .imageContainers {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 60%;
+  .descCol {
+    padding-right: clamp(1.5rem, 3vw, 4rem);
+
+    .description {
+      margin: 0;
+      font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+      font-weight: 500;
+      line-height: 1.5;
+      letter-spacing: -0.005em;
+      color: #1d1d1d;
+      max-width: 380px;
+    }
+  }
+
+  .emptyCol {
+    display: block;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+
+    .emptyCol {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3rem 1.5rem 3.5rem;
+
+    .titleCol {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .descCol {
+      padding-right: 0;
+
+      .description {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+/* ===================================================
+   IMAGE CONTAINERS
+   Edge-to-edge full width 3-part layout
+   =================================================== */
+.imageContainers {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0;
+  padding: 0;
+  gap: 0;
+
+  .one,
+  .two,
+  .three {
+    position: relative;
     width: 100%;
+    aspect-ratio: 3.3 / 4;
+    overflow: hidden;
+    background-color: #f1ede8;
+
+    .image {
+      object-fit: cover;
+      transform: scale(1.15); // Gives headroom for smooth GSAP parallax scrubbing
+      will-change: transform;
+    }
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+
+    .one,
+    .two,
+    .three {
+      aspect-ratio: 4 / 3;
+    }
   }
 }

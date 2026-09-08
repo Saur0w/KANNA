@@ -43,7 +43,6 @@ export default function Footer() {
                 },
             });
 
-            // 1. Stagger horizontal mask reveal of page navigation links
             tl.fromTo(
                 `.${styles.navLink}`,
                 {
@@ -60,7 +59,6 @@ export default function Footer() {
                     ease: "power3.out",
                 }
             )
-                // 2. Split letter mask reveal: letters slide up from behind overflow:hidden mask
                 .fromTo(
                     `.${styles.char}`,
                     {
@@ -78,7 +76,6 @@ export default function Footer() {
                     },
                     "-=0.55"
                 )
-                // 3. Socials and credit mask reveal sliding up
                 .fromTo(
                     [`.${styles.socialLink}`, `.${styles.credit} p`],
                     {
@@ -105,7 +102,6 @@ export default function Footer() {
     return (
         <div ref={wrapperRef} className={styles.footerWrapper}>
             <footer ref={containerRef} className={styles.footer}>
-                {/* Top Navigation: Horizontal Underlined Links with Masked Reveal */}
                 <nav className={styles.topNav} aria-label="Footer Navigation">
                     {NAV_LINKS.map((link) => (
                         <span key={link.label} className={styles.linkMask}>
@@ -115,8 +111,6 @@ export default function Footer() {
                         </span>
                     ))}
                 </nav>
-
-                {/* Main Big Display Text with Split Letter Mask */}
                 <div className={styles.headingWrapper}>
                     <h1 className={styles.mainHeading} aria-label={BRAND_NAME}>
                         {BRAND_NAME.split("").map((char, index) => (
@@ -127,7 +121,6 @@ export default function Footer() {
                     </h1>
                 </div>
 
-                {/* Bottom Bar: Vertical Social Links on Left, Credit on Right */}
                 <div className={styles.bottomBar}>
                     <ul className={styles.socialList}>
                         {SOCIAL_LINKS.map((item) => (

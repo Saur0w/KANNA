@@ -9,6 +9,8 @@ import Projects from "@/components/Projects";
 import Objects from "@/components/Objects";
 import Parallax from "@/components/Parallax";
 import Workshop from "@/components/Workshop";
+import Marquee from "@/components/Marquee";
+import Spaces from "@/components/Spaces";
 
 export default function Home() {
 
@@ -21,7 +23,10 @@ export default function Home() {
             <Des />
             <Gallery />
             <Workshop />
+            <Spaces />
             <Objects />
+            <Parallax />
+            <Marquee />
             <Projects />
         </main>
     );

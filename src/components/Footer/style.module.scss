@@ -1,4 +1,4 @@
-/* --- Sticky Reveal Wrapper --- */
+
 .footerWrapper {
   position: relative;
   width: 100%;
@@ -8,7 +8,6 @@
   z-index: 1;
 }
 
-/* --- Fixed Bottom Curtain Footer --- */
 .footer {
   position: fixed;
   bottom: 0;
@@ -28,7 +27,6 @@
   font-family: var(--font-montserrat), sans-serif;
 }
 
-/* --- Top Navigation --- */
 .topNav {
   display: flex;
   flex-wrap: wrap;
@@ -39,7 +37,7 @@
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
-    padding-bottom: 4px; // room for underline and link descenders
+    padding-bottom: 4px;
   }
 
   .navLink {
@@ -60,7 +58,6 @@
   }
 }
 
-/* --- Big Display Typography (KANNA) --- */
 .headingWrapper {
   display: flex;
   align-items: center;
@@ -84,7 +81,6 @@
   margin: 0;
   padding: 0;
 
-  /* Overflow-hidden mask on each letter */
   .charMask {
     display: inline-block;
     overflow: hidden;
@@ -97,7 +93,6 @@
   }
 }
 
-/* --- Bottom Bar --- */
 .bottomBar {
   display: flex;
   align-items: flex-end;
@@ -163,7 +158,6 @@
   }
 }
 
-/* --- Responsive Layout --- */
 @media (max-width: 768px) {
   .footerWrapper {
     height: 80vh;
