@@ -1,4 +1,6 @@
 .gallery {
+  position: relative;
+  z-index: 3;
   width: 100%;
   min-height: 100vh;
   background-color: #f1ede8;

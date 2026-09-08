@@ -65,7 +65,6 @@ export default function Landing() {
                     delay: cfg.delay,
                 });
 
-                // 1. Mill3-style character slide-in with custom cubic ease
                 tl.to(
                     chars,
                     {
@@ -88,7 +87,6 @@ export default function Landing() {
                         },
                         0.25
                     )
-                    // 2. Banner height collapse revealing the stoneware vase below
                     .to(
                         bannerRef.current,
                         {
@@ -103,7 +101,6 @@ export default function Landing() {
             mm.add("(min-width: 769px)", () => buildIntro(DESKTOP_CONFIG));
             mm.add("(max-width: 768px)", () => buildIntro(MOBILE_CONFIG));
 
-            // 3. Mill3-style subtle scroll parallax on the hero vase image
             if (imageWrapperRef.current && lowerRef.current) {
                 gsap.fromTo(
                     imageWrapperRef.current,
