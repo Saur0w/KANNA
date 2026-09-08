@@ -92,7 +92,7 @@ export default function Projects() {
 
                 <div className={styles.text} ref={textRef} data-hover-parent="true">
                     <h2 className={styles.title}>
-                        <PerspectiveText label="TERRA" secondaryLabel="KANNA" />
+                        <PerspectiveText label="TERRA" secondaryLabel="SOMA" />
                     </h2>
                 </div>
             </div>
