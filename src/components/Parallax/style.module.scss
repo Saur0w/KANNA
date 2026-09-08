@@ -1,10 +1,11 @@
 .parallax {
-  position: relative;
+  position: fixed;
   width: 100%;
   background-color: #0d0e10;
   color: #f2f1ed;
   overflow: hidden;
   box-sizing: border-box;
+  z-index: -10;
 }
 
 .parallaxHeader {
