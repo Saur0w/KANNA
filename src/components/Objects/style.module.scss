@@ -12,10 +12,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===================================================
-   UPPER SECTION
-   3-column grid matching the exact columns of images below
-   =================================================== */
 .upperSection {
   width: 100%;
   display: grid;
@@ -95,10 +91,6 @@
   }
 }
 
-/* ===================================================
-   IMAGE CONTAINERS
-   Edge-to-edge full width 3-part layout
-   =================================================== */
 .imageContainers {
   width: 100%;
   display: grid;
@@ -107,28 +99,30 @@
   padding: 0;
   gap: 0;
 
-  .one,
-  .two,
-  .three {
+  .imagePanel {
     position: relative;
     width: 100%;
     aspect-ratio: 3.3 / 4;
     overflow: hidden;
     background-color: #f1ede8;
+    will-change: transform, opacity;
 
     .image {
       object-fit: cover;
-      transform: scale(1.15); // Gives headroom for smooth GSAP parallax scrubbing
+      transform: scale(1);
       will-change: transform;
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    &:hover .image {
+      transform: scale(1.04);
     }
   }
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
 
-    .one,
-    .two,
-    .three {
+    .imagePanel {
       aspect-ratio: 4 / 3;
     }
   }

@@ -38,7 +38,7 @@ export default function Footer() {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: wrapperRef.current,
-                    start: "top 90%",
+                    start: "top 110%",
                     toggleActions: "play none none reverse",
                 },
             });

@@ -38,11 +38,10 @@ export default function Objects() {
             gsap.set(titleSplit.lines, { yPercent: 110, opacity: 0 });
             gsap.set(descSplit.lines, { yPercent: 110, opacity: 0 });
 
-            // 1. Text entrance animation with Mill3 curves
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: `.${styles.upperSection}`,
-                    start: "top 75%",
+                    start: "top 95%",
                     toggleActions: "play none none reverse",
                 },
             });
@@ -78,29 +77,48 @@ export default function Objects() {
                 0.22
             );
 
-            // 2. Subtle smooth parallax effect across all 3 image panels
-            const images = [
-                { selector: `.${styles.one} .${styles.image}`, yFactor: -7 },
-                { selector: `.${styles.two} .${styles.image}`, yFactor: 8 },
-                { selector: `.${styles.three} .${styles.image}`, yFactor: -6 },
-            ];
+            const panels = containerRef.current.querySelectorAll(`.${styles.imagePanel}`);
+            const panelImages = containerRef.current.querySelectorAll(`.${styles.imagePanel} .${styles.image}`);
 
-            images.forEach(({ selector, yFactor }) => {
-                gsap.fromTo(
-                    selector,
-                    { yPercent: -yFactor },
-                    {
-                        yPercent: yFactor,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: `.${styles.imageContainers}`,
-                            start: "top bottom",
-                            end: "bottom top",
-                            scrub: 1.2,
+            if (panels.length && panelImages.length) {
+                const imgTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: `.${styles.imageContainers}`,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+
+                imgTl
+                    .fromTo(
+                        panels,
+                        {
+                            opacity: 0,
+                            y: 45,
                         },
-                    }
-                );
-            });
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1.1,
+                            ease: "mill3",
+                            stagger: 0.12,
+                        },
+                        0
+                    )
+                    .fromTo(
+                        panelImages,
+                        {
+                            scale: 1.14,
+                        },
+                        {
+                            scale: 1.0,
+                            duration: 1.35,
+                            ease: "mill3",
+                            stagger: 0.12,
+                        },
+                        0
+                    );
+            }
         },
         {
             scope: containerRef,
@@ -126,24 +144,21 @@ export default function Objects() {
                         modern interiors with tactile texture and quiet composure.
                     </p>
                 </div>
-
-                {/* Empty third column to maintain perfect 3-column editorial grid alignment */}
                 <div className={styles.emptyCol} />
             </div>
 
             <div className={styles.imageContainers}>
-                <div className={styles.one}>
+                <div className={styles.imagePanel}>
                     <Image
                         src="/images/parallax/1.jpg"
                         alt="Minimalist warm interior architecture with bench and natural shadows"
                         fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
                         className={styles.image}
                         priority
                     />
                 </div>
 
-                <div className={styles.two}>
+                <div className={styles.imagePanel}>
                     <Image
                         src="/images/parallax/3.jpg"
                         alt="Glass bottle with dry branch in directional window light"
@@ -153,7 +168,7 @@ export default function Objects() {
                     />
                 </div>
 
-                <div className={styles.three}>
+                <div className={styles.imagePanel}>
                     <Image
                         src="/images/lux.jpg"
                         alt="Raw sculptural stoneware vessel on stone plinth"

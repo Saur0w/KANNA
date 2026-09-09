@@ -64,7 +64,6 @@ export default function Landing() {
                 const tl = gsap.timeline({
                     delay: cfg.delay,
                 });
-
                 tl.to(
                     chars,
                     {

@@ -6,7 +6,7 @@
 .parallax {
   position: relative;
   width: 100%;
-  height: 250vh; // scroll distance for the column scrub
+  height: 220vh; // scroll distance for the column scrub
   z-index: 1;
   clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0% 100%);
 }
@@ -59,10 +59,23 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: clamp(12px, 1.8vw, 24px);
   min-width: 0;
   position: relative;
   will-change: transform;
+  top: -70vh;
+
+  @media (max-width: 640px) {
+    top: -55vh;
+  }
+
+  .columnTrack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.8vw, 24px);
+    width: 100%;
+    flex-shrink: 0;
+    padding-bottom: clamp(12px, 1.8vw, 24px);
+  }
 
   .imageContainer {
     position: relative;
@@ -97,45 +110,5 @@
       background: linear-gradient(180deg, transparent 75%, rgba(0, 0, 0, 0.25));
       pointer-events: none;
     }
-  }
-}
-
-// --- Staggered Initial Negative Offsets (Infinite Flow) ---
-// Desktop 4 Columns:
-@media (min-width: 1025px) {
-  .column:nth-of-type(1) {
-    top: -45vh;
-  }
-  .column:nth-of-type(2) {
-    top: -90vh;
-  }
-  .column:nth-of-type(3) {
-    top: -55vh;
-  }
-  .column:nth-of-type(4) {
-    top: -95vh;
-  }
-}
-
-// Tablet 3 Columns:
-@media (min-width: 641px) and (max-width: 1024px) {
-  .column:nth-of-type(1) {
-    top: -45vh;
-  }
-  .column:nth-of-type(2) {
-    top: -85vh;
-  }
-  .column:nth-of-type(3) {
-    top: -50vh;
-  }
-}
-
-// Mobile 2 Columns (including 500px viewport):
-@media (max-width: 640px) {
-  .column:nth-of-type(1) {
-    top: -40vh;
-  }
-  .column:nth-of-type(2) {
-    top: -80vh;
   }
 }
