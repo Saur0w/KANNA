@@ -1,23 +1,23 @@
 .projects {
-  position: sticky;
-  bottom: 0;
+  position: relative;
   z-index: 3;
   width: 100%;
-  height: 52vh;
-  min-height: 440px;
+  min-height: clamp(380px, 46vh, 520px);
   background: #f2f1ed;
-  box-shadow: 0 35px 50px -15px rgba(0, 0, 0, 0.18);
+  border-top: 1px solid rgba(25, 24, 23, 0.08);
+  box-shadow: 0 35px 50px -15px rgba(0, 0, 0, 0.14);
   box-sizing: border-box;
 
   .body {
     position: relative;
-    height: 100%;
     width: 100%;
-    padding: clamp(2rem, 4vw, 4rem) clamp(2rem, 5vw, 5rem);
+    min-height: clamp(380px, 46vh, 520px);
+    padding: clamp(2rem, 4vw, 3.75rem) clamp(1.5rem, 5vw, 4.5rem);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: clamp(2rem, 4vw, 3.5rem);
 
     .heading {
       display: inline-flex;
@@ -26,11 +26,12 @@
       cursor: pointer;
       width: fit-content;
       color: #0f0f0f;
+      text-decoration: none;
 
       .headingLabel {
         text-transform: uppercase;
         font-family: var(--font-montserrat), 'Montserrat', sans-serif;
-        font-size: clamp(16px, 1.35vw, 20px);
+        font-size: clamp(15px, 1.25vw, 19px);
         font-weight: 500;
         letter-spacing: -0.01em;
         margin: 0;
@@ -38,6 +39,7 @@
 
       .arrowIcon {
         transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        flex-shrink: 0;
       }
 
       &:hover .arrowIcon {
@@ -45,18 +47,27 @@
       }
     }
 
+    .bottomRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      width: 100%;
+      gap: clamp(1.5rem, 3vw, 3rem);
+    }
+
     .imageCard {
-      position: absolute;
-      bottom: clamp(2rem, 4vw, 4rem);
-      left: clamp(2rem, 5vw, 5rem);
-      height: clamp(140px, 18vh, 190px);
-      width: clamp(200px, 20vw, 270px);
+      position: relative;
+      height: clamp(130px, 12vw, 175px);
+      width: clamp(190px, 18vw, 260px);
       border-radius: 4px;
       overflow: hidden;
       cursor: pointer;
+      flex-shrink: 0;
       box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.12);
       transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
                   box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      display: block;
+      text-decoration: none;
 
       .imageInner {
         position: relative;
@@ -99,14 +110,15 @@
     }
 
     .text {
-      align-self: flex-end;
       cursor: pointer;
       width: fit-content;
+      text-decoration: none;
+      display: block;
 
       .title {
         text-transform: uppercase;
         font-family: var(--font-montserrat), 'Montserrat', sans-serif;
-        font-size: clamp(48px, 9vw, 110px);
+        font-size: clamp(3.5rem, 8vw, 7.5rem);
         font-weight: 400;
         line-height: 0.88;
         letter-spacing: -0.04em;
@@ -116,23 +128,62 @@
     }
   }
 
-  @media (max-width: 768px) {
-    height: auto;
-    min-height: 380px;
-
+  /* Tablet & Compact Breakpoints */
+  @media (max-width: 900px) {
     .body {
-      padding: 2rem 1.5rem;
-      gap: 2rem;
+      .bottomRow {
+        gap: 1.5rem;
+      }
 
       .imageCard {
-        position: static;
+        width: clamp(170px, 24vw, 220px);
+        height: clamp(115px, 16vw, 150px);
+      }
+
+      .text .title {
+        font-size: clamp(3rem, 7.5vw, 5.5rem);
+      }
+    }
+  }
+
+  /* Mobile Portrait & Small Screens */
+  @media (max-width: 640px) {
+    min-height: auto;
+
+    .body {
+      min-height: auto;
+      padding: 2rem 1.25rem;
+      gap: 2rem;
+
+      .heading {
+        .headingLabel {
+          font-size: 14px;
+        }
+
+        .arrowIcon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .bottomRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.75rem;
+      }
+
+      .imageCard {
         width: 100%;
         max-width: 240px;
-        height: 140px;
+        height: 135px;
       }
 
       .text {
         align-self: flex-start;
+
+        .title {
+          font-size: clamp(2.75rem, 13vw, 4.25rem);
+        }
       }
     }
   }

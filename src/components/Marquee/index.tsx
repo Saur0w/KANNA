@@ -3,8 +3,10 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { useLenis } from "lenis/react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import styles from "./style.module.scss";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface TextItem {
     type: "text";
@@ -70,8 +72,10 @@ const MARQUEE_ITEMS: MarqueeItem[] = [
 function RenderItem({ item, index }: { item: MarqueeItem; index: number }) {
     if (item.type === "text") {
         return (
-            <span key={index} className={styles.word}>
-                {item.text}
+            <span key={index} className={styles.wordMask}>
+                <span className={styles.word}>
+                    {item.text}
+                </span>
             </span>
         );
     }
@@ -114,22 +118,93 @@ function RenderItem({ item, index }: { item: MarqueeItem; index: number }) {
 }
 
 export default function Marquee() {
+    const sectionRef = useRef<HTMLElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
     const skewTo = useRef<ReturnType<typeof gsap.quickTo> | null>(null);
 
     useGSAP(
         () => {
-            if (!trackRef.current) return;
+            if (!sectionRef.current || !trackRef.current) return;
             gsap.set(trackRef.current, { transformOrigin: "50% 50%", force3D: true });
             skewTo.current = gsap.quickTo(trackRef.current, "skewX", {
                 duration: 0.55,
                 ease: "power3.out",
             });
+
+            // Scroll reveal animation for Marquee titles, cards, and dividers
+            const words = sectionRef.current.querySelectorAll(`.${styles.word}`);
+            const cards = sectionRef.current.querySelectorAll(`.${styles.imageCard}, .${styles.brandCard}`);
+            const dividers = sectionRef.current.querySelectorAll(`.${styles.dividerBar}`);
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse",
+                },
+            });
+
+            if (words.length) {
+                tl.fromTo(
+                    words,
+                    {
+                        yPercent: 120,
+                        opacity: 0,
+                    },
+                    {
+                        yPercent: 0,
+                        opacity: 1,
+                        duration: 0.95,
+                        stagger: 0.06,
+                        ease: "mill3",
+                    },
+                    0
+                );
+            }
+
+            if (cards.length) {
+                tl.fromTo(
+                    cards,
+                    {
+                        opacity: 0,
+                        y: 30,
+                        scale: 0.95,
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.9,
+                        stagger: 0.08,
+                        ease: "mill3",
+                    },
+                    0.1
+                );
+            }
+
+            if (dividers.length) {
+                tl.fromTo(
+                    dividers,
+                    {
+                        scaleY: 0,
+                        opacity: 0,
+                    },
+                    {
+                        scaleY: 1,
+                        opacity: 0.85,
+                        duration: 0.7,
+                        stagger: 0.04,
+                        ease: "mill3",
+                    },
+                    0.15
+                );
+            }
+
             return () => {
                 skewTo.current = null;
             };
         },
-        { scope: trackRef }
+        { scope: sectionRef }
     );
 
     // Subtle dynamic skew on scroll without altering scrolling speed or direction
@@ -144,7 +219,7 @@ export default function Marquee() {
     );
 
     return (
-        <section className={styles.marqueeSection} aria-label="Infinite Marquee">
+        <section ref={sectionRef} className={styles.marqueeSection} aria-label="Infinite Marquee">
             <div className={styles.marqueeWrapper}>
                 <div ref={trackRef} className={styles.marqueeTrack}>
                     {/* Primary Track Sequence */}

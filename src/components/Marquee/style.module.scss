@@ -35,10 +35,6 @@
   width: max-content;
   will-change: transform;
   animation: marqueeScroll 28s linear infinite;
-
-  &:hover {
-    animation-play-state: paused;
-  }
 }
 
 .marqueeSequence {
@@ -48,8 +44,17 @@
   padding-right: clamp(1.75rem, 3.5vw, 3.5rem);
 }
 
-/* Typography Words */
+/* Typography Words & Overflow Aperture */
+.wordMask {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  vertical-align: middle;
+  line-height: 1;
+}
+
 .word {
+  display: inline-block;
   font-family: var(--font-montserrat), sans-serif;
   font-size: clamp(2.75rem, 5.5vw, 5.25rem);
   font-weight: 300;
@@ -58,6 +63,8 @@
   text-transform: uppercase;
   white-space: nowrap;
   line-height: 1;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 /* Vertical Accent Divider */
@@ -67,6 +74,8 @@
   height: clamp(45px, 5.5vw, 80px);
   background-color: #FFFFFF;
   opacity: 0.85;
+  will-change: transform, opacity;
+  transform-origin: center bottom;
 }
 
 /* Image Card (Card 1: Architectural Vessel with Editorial Header) */
