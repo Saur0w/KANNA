@@ -1,9 +1,10 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CustomEase } from 'gsap/CustomEase';
+import { SplitText } from 'gsap/SplitText';
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, CustomEase, useGSAP);
+gsap.registerPlugin(ScrollTrigger, CustomEase, SplitText, useGSAP);
 
 if (typeof window !== "undefined") {
     ScrollTrigger.config({ ignoreMobileResize: true });
@@ -17,4 +18,4 @@ if (typeof window !== "undefined") {
     }
 }
 
-export { gsap, ScrollTrigger, CustomEase, useGSAP };
+export { gsap, ScrollTrigger, CustomEase, SplitText, useGSAP };
