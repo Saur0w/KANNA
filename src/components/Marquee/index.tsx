@@ -139,7 +139,7 @@ export default function Marquee() {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 85%",
+                    start: "top 95%",
                     toggleActions: "play none none reverse",
                 },
             });
