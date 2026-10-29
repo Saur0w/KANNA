@@ -11,14 +11,12 @@ import Parallax from "@/components/Parallax";
 import Workshop from "@/components/Workshop";
 import Marquee from "@/components/Marquee";
 import Spaces from "@/components/Spaces";
-import Preloader from "@/components/Preloader";
 
 export default function Home() {
 
 
     return (
         <main className={styles.page}>
-            <Preloader />
             <Header />
             <Landing />
             <Parallax />
